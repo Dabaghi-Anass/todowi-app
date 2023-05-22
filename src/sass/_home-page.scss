@@ -1,0 +1,79 @@
+header{
+  $padding : 1rem;
+  position: relative;
+  isolation: isolate;
+  padding:$padding;
+  gap: 1rem;
+  isolation: isolate;
+  &::before {
+      content: "";
+      position: absolute;
+      inset: calc($padding * -1);
+      z-index: -1;
+      background: linear-gradient(90deg, $green-light 30%, transparent);
+      opacity: .7;
+    }
+  & .header-image{
+    position: absolute;
+    object-fit: cover;
+    bottom: 0;
+    right: 0;
+    transform: translateY(3%);
+    z-index: -2;
+  }
+  & .hero{
+    height: 100%;
+    width: fit-content;
+    @include flex(center,end);
+    flex-direction: column;
+    gap: 2.5rem;
+    & p{
+      font-size: font(1rem,4rem);
+      line-height: 1;
+      letter-spacing: .3rem;
+      font-family: $font-sec;
+      color: $green;
+    }
+    & .cta{
+      margin-bottom: 5rem;
+      width: 100%;
+      & > *{
+        width: 100%;
+      }
+    }
+  }
+}
+
+.description {
+  background: getImage("home-section2") no-repeat;
+  padding : 1rem;
+  background-size: cover;
+  @include flex(center,space-around);
+  flex-wrap: wrap;
+  gap: 1rem;
+  img{
+    height: 80%;
+  }
+  & p{
+    text:{
+      decoration : underline;
+      decoration-color : $burned-green;
+      decoration-thickness : 4px;
+      transform: capitalize;
+    }
+    line-height: 1.5;
+    color: $text-clr;
+    font : {
+      size: 1.8rem;
+      weight : 600;
+    }
+  }
+}
+
+@media  (width <= 1000px){
+  .description{
+    img{
+      display: none;
+    }
+  }
+}

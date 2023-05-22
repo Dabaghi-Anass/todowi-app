@@ -1,0 +1,72 @@
+@import "./_mixins";
+.auth-page{
+  background-image: getImage("authpagebackground");
+  background-size: contain;
+  background-repeat: no-repeat;
+  @include flex;
+  // height: 100vh;
+  padding: 1rem;
+}
+.form-container {
+  @include flex(start, center);
+  width: 100%;
+  &>  .form-item{
+    @include flex;
+    @include authContainer;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem .3rem;
+    & button{
+      background: none;
+      border: none;
+      transition: all 250ms;
+      filter: brightness(1.5) saturate(2);
+      &:nth-child(2):hover{
+        filter: hue-rotate(220deg) brightness(1.2);
+        scale: 1.05;
+      }
+      &:hover{
+        filter: hue-rotate(100deg);
+        scale: 1.05;
+      }
+    }
+  }
+}
+.form{
+  @include flex(stretch,space-evenly);
+  @include authContainer;
+  aspect-ratio: 8 / 7;
+  padding: 1rem;
+  flex-direction: column;
+  width: min(100%, 600px);
+  gap: 1rem;
+  & h1{
+    font-family: $font-sec;
+    color: $green;
+    font-size: font(1rem,2.5rem);
+    text-align: center;
+    line-height: .7;
+    font-weight: $font-weight-light;
+    & span{
+      font-weight: $font-weight-light;
+      font-size: font(.7rem, 1.3rem);
+    }
+  }
+  & .form-group{
+    width: 100%;
+  }
+  & .form-item{
+    @include flex(stretch,center);
+    gap: 1rem;
+    flex-direction: column;
+  }
+  & .submit-section{
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+    & a{
+      font-size: .8rem;
+    }
+  }
+}

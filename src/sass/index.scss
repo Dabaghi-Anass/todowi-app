@@ -1,0 +1,43 @@
+@use "./_applogo";
+@import "./_mixins","./_popup","./_nav" ,"./_vars", "./_scrollbar" , "./_home-page","./_auth-page","./_tasks-page";
+@import url('https://fonts.googleapis.com/css2?family=Maven+Pro&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
+
+:root {
+  font-family: 'Maven Pro' ,helvetica, sans-serif;
+}
+.fullHeight{
+  height: 100vh;
+}
+::selection{
+  background: $green;
+  color: white;
+}
+::-moz-selection{
+    background: $green;
+    color: white;
+}
+img{
+  user-select: none;
+}
+*,*::after,*::before{
+  box-sizing: border-box;
+  margin: 0;
+}
+html,
+body {
+  height: 100%;
+}
+main{
+  min-height: 100vh ;
+  overflow-x: hidden;
+}
+
+body{
+  background: $green-light;
+}
+.not-found-page{
+  @include flex;
+  flex-direction: column;
+  height: 100vh;
+}

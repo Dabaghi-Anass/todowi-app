@@ -1,0 +1,14 @@
+@import "./_vars";
+.logo {
+  font-family: $font-sec;
+  width: fit-content;
+  position: relative;
+  font-size: 2rem;
+
+  &>a {
+    text-decoration: none;
+    font-weight: $font-weight-light;
+    color: $green;
+  }
+}
+

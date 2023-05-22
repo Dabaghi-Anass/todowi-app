@@ -1,0 +1,18 @@
+{
+  "callToAction" : {
+    "label" : "Get Started",
+    "path" : "/manager"
+  },
+  "/" : {
+    "label" : "Go Back To Home Page",
+    "path" : "/"
+  },
+  "login" : {
+    "label" : "login",
+    "path" : "/auth/login"
+  },
+  "register" : {
+    "label" : "register",
+    "path" : "/auth/register"
+  }
+}

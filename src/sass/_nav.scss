@@ -1,0 +1,113 @@
+@import "./_vars";
+
+nav {
+  @include flex(center, space-between);
+  gap: 1rem;
+  & div {
+    @include flex;
+    gap: 1rem;
+  }
+}
+
+.link {
+  color: $green;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: .01rem;
+  transition: all 150ms;
+  border: none;
+  text-transform: capitalize;
+  background: transparent;
+
+  &[data-speciallink] {
+    &>* {
+      color: $text-clr;
+      font-weight: 300;
+
+      &:hover {
+        color: lighten($text-clr, 20);
+      }
+    }
+
+  }
+
+  &>* {
+    color: $green;
+    text-decoration: none;
+  }
+
+  &.button {
+    background: $green;
+    color: white;
+    padding: .7rem 1rem;
+    width: 100%;
+    border: 1px solid $green;
+
+    &>* {
+      color: white;
+    }
+
+    &:hover {
+      &>* {
+        color: $green;
+      }
+    }
+  }
+
+  &:hover {
+    &>* {
+      color: $text-clr;
+    }
+  }
+
+  &.button:hover {
+    color: $green;
+    background: transparent;
+  }
+}
+
+.profileButton {
+  @include flex;
+  width: 2rem;
+  aspect-ratio: 1;
+  background: $green;
+  border-radius: 100%;
+  color: white;
+  font-weight: bold;
+}
+
+footer {
+  background: $clr-dark;
+  color: white;
+  padding: .3rem 1rem;
+  text-transform: capitalize;
+  @include flex(center, space-between);
+
+  &>.footer-logo {
+    @include flex(center, start);
+    gap: 1rem;
+  }
+
+  &>.footer-logo+* {
+    @include flex;
+    gap: 1rem;
+    color: $green;
+    text-decoration: none;
+  }
+
+  & a {
+    color: inherit;
+
+    &:hover {
+      color: lighten($green, 30);
+    }
+  }
+}
+
+@media screen and (max-width: 768px) {
+  footer {
+    flex-direction: column-reverse;
+    gap: 1rem;
+    padding: 1rem;
+  }
+}

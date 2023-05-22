@@ -1,0 +1,24 @@
+* {
+  scrollbar-width: auto;
+  scrollbar-color: $green $green-light;
+}
+
+*::-webkit-scrollbar {
+  width: 8px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: $green;
+  border-radius: 0px;
+  border: 0px solid $green-light;
+}
+.task-wrapper .content::-webkit-scrollbar {
+  width: 2px;
+}
+.task-wrapper .content::-webkit-scrollbar-thumb {
+  background: linear-gradient(transparent,#ffffff70 ,transparent);
+}

@@ -7,6 +7,7 @@ export const HomePage = () => {
   return (
     <>
       <header className="fullHeight">
+
         <AppNavBar />
         <img src={headerImage} alt="" className="header-image" />
         <section className="hero">
@@ -15,7 +16,7 @@ export const HomePage = () => {
             productivity
           </p>
           <div className="cta">
-            <AppLink id="callToAction" button />
+            <AppLink id="manager" button />
           </div>
         </section>
       </header>

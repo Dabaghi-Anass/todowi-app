@@ -14,5 +14,9 @@
   "register" : {
     "label" : "register",
     "path" : "/auth/register"
+  },
+  "manager" : {
+    "label" : "Get Started",
+    "path" : "/manager"
   }
 }

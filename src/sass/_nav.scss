@@ -10,6 +10,8 @@ nav {
 }
 
 .link {
+  display: flex;
+  justify-content: center;
   color: $green;
   font-weight: 600;
   font-size: 1rem;
@@ -18,7 +20,9 @@ nav {
   border: none;
   text-transform: capitalize;
   background: transparent;
-
+  :has(&){
+    text-decoration: none;
+  }
   &[data-speciallink] {
     &>* {
       color: $text-clr;

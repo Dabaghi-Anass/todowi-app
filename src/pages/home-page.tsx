@@ -22,7 +22,6 @@ export const HomePage = () => {
       </header>
       <section className="description fullHeight">
         <p>
-
           For better productivité you need
           <br />better management of your tasks
           <br />

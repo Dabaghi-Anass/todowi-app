@@ -11,8 +11,10 @@ interface props{
 }
 export const AppLink = ({ id , button,children,icon,label ,style,...rest}: props) => {
   return (
-    <button className={`link ${button && "button"}`} style={style} {...rest}>
-      <Link to={`${links[id].path}`}>{icon ? children : label ? label : `${links[id].label}`}</Link>
+    <Link to={`${links[id].path}`}>
+        <button className={`link ${button && "button"}`} style={style} {...rest}>
+        {icon ? children : label ? label : `${links[id].label}`}
     </button>
+    </Link>
   )
 }

@@ -20,19 +20,9 @@ nav {
   border: none;
   text-transform: capitalize;
   background: transparent;
+  text-decoration: none;
   :has(&){
     text-decoration: none;
-  }
-  &[data-speciallink] {
-    &>* {
-      color: $text-clr;
-      font-weight: 300;
-
-      &:hover {
-        color: lighten($text-clr, 20);
-      }
-    }
-
   }
 
   &>* {
@@ -114,4 +104,13 @@ footer {
     gap: 1rem;
     padding: 1rem;
   }
+}
+[data-speciallink]{
+    width: 100%;
+    color: $text-clr;
+    font-weight: 300;
+    font-size: .8rem;
+    &:hover {
+      color: lighten($text-clr, 40);
+    }
 }

@@ -4,18 +4,15 @@
   width: 100%;
   height: 100%;
   z-index: 10;
-  background: rgba(0, 0, 0, 0.402);
-}
-.pop-up {
-  --width : 90%;
-  --height : 90%;
-  position: absolute;
-  z-index: 10;
-  width: var(--width);
-  height: var(--height);
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%,-50%);
-  border: none;
-  background: red;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(50px);
+  @include flex;
+  & .close-icon{
+    color: white;
+    position: absolute;
+    top : 0;
+    right: 0;
+    margin: 1rem;
+    font-size: 2rem;
+  }
 }

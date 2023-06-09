@@ -1,8 +1,9 @@
 import AppIcon from "./app-icon"
 interface Props{
   onFilter: (string : string) => void;
+  onAddTodo: () => void;
 }
-export default ({onFilter} : Props) => {
+export default ({onFilter,onAddTodo} : Props) => {
   return (<section className="task-filter-section">
           <div>
             <input type="search" placeholder="search task" />
@@ -14,9 +15,9 @@ export default ({onFilter} : Props) => {
         <AppIcon name="Splitscreen" onClick={(e) => onFilter("split")} />
             </div>
       <div>
-        <button className="add-todo-button">
+        <button className="add-todo-button" onClick={onAddTodo}>
           <span>Add Task / TO DO</span>
-          <AppIcon name="AddBoxOutlined"/>
+          <AppIcon name="AddBox"/>
         </button>
             </div>
           </div>

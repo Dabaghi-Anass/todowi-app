@@ -1,3 +1,5 @@
+@import "./_mixins";
+
 .tasks-page {
   background: getImage("tasks-page-background");
   min-height: 100%;
@@ -158,7 +160,7 @@ button,
 
     & .filters {
       @include flex(center, space-between);
-      padding: 0.5rem;
+      padding: .5rem 2rem;
       background: hsl(0, 0%, 90%);
       gap: 1rem;
 
@@ -169,7 +171,7 @@ button,
       }
 
       & .filters-icons {
-        @include flex;
+        @include flex(center, flex-start);
         gap: 1rem;
         font-size: 1.5rem;
       }
@@ -178,6 +180,13 @@ button,
         @include flex;
         gap: 0.5rem;
         background: none;
+
+        & div.button {
+          @include flex;
+        }
+
+        font-size: font(.1rem, 1rem);
+        font-weight: 600;
         outline: none;
         border: none;
         transition: all 300ms;
@@ -227,7 +236,7 @@ button,
 }
 
 .task-wrapper {
-  background: #ffcf71;
+
   --clr: $text-clr;
   color: var(--clr);
 
@@ -241,7 +250,8 @@ button,
       user-select: none;
     }
   }
-  #category{
+
+  #category {
     background: transparent;
     outline: none;
     border: none;
@@ -249,6 +259,7 @@ button,
     width: fit-content;
     font-size: 1rem;
   }
+
   @include flex(stretch, stretch);
   gap: 1rem;
   flex-direction: column;

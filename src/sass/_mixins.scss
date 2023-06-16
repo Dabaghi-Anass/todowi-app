@@ -3,14 +3,16 @@
   align-items: $align;
   justify-content: $justify;
 }
+
 @mixin authContainer() {
-    background: #ffffff95;
-    border: 2px solid $dark-border;
+  background: #ffffff95;
+  border: 2px solid $dark-border;
 }
 
-@function font($min : 1rem,$max : 1.5rem) {
-  @return clamp($min, $min + 5vw,$max);
+@function font($min : 1rem, $max : 1.5rem) {
+  @return clamp($min, 0.1rem + 3vw, $max);
 }
+
 @function getImage($image) {
   @return url("../assets/svgs/" + $image + ".svg");
 }

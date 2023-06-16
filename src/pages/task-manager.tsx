@@ -13,25 +13,26 @@ export const TasksManager = () => {
     setGrid(false);
   }
   function handleCreateTodo() {
-      const newTask  = {
-        id: "akak",
-        title: "title",
-        content: "new task",
-        background: "hsl(210,50%,50%)",
-        size: 8,
-        category: "Category",
-        creationDate: new Date(),
-        expirationDate: new Date(),
-        isPinned: false,
-        isHidden: false,
-        boldWords: [],
-        italicWords: [],
-        underlinedWords: [],
-        lineCrossedWords: [],
+    const newTask = {
+      id: "akak",
+      title: "title",
+      content: "new task",
+      background: "#ebba50",
+      size: 8,
+      category: "Category",
+      creationDate: new Date(),
+      expirationDate: new Date(),
+      isPinned: false,
+      isHidden: false,
+      boldWords: [],
+      italicWords: [],
+      underlinedWords: [],
+      lineCrossedWords: [],
     }
     setTasks(prev => ([
-      ...prev, newTask
+      ...tasks, newTask
     ]))
+    document.documentElement.scrollTop = document.documentElement.scrollHeight;
   }
   return (
     <main className="tasks-page">
@@ -43,9 +44,9 @@ export const TasksManager = () => {
             <span>tasks</span>
           </h1>
         </section>
-        <SearchAndFilterSection onAddTodo={handleCreateTodo}   onFilter={switchDisplayMode} />
+        <SearchAndFilterSection onAddTodo={handleCreateTodo} onFilter={switchDisplayMode} />
         <TaskBodySection data={tasks} grid={grid} />
       </section>
-   </main>
+    </main>
   )
 }

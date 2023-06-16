@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {hexToHsl,rgbToHex} from "./utils"
+import { hexToHsl, rgbToHex } from "./utils"
 import Task from "./task-wrapper";
 type Word = {
   word: string;
@@ -29,6 +29,7 @@ interface DataProps {
 export default function TaskBodySection({ data: tasks, grid }: DataProps) {
 
   const [data, setData] = useState<TaskProps[]>(tasks);
+
   const handleHideTask = (id: string, e: React.MouseEvent) => {
     console.log("hidden")
   }
@@ -71,6 +72,9 @@ export default function TaskBodySection({ data: tasks, grid }: DataProps) {
   useEffect(() => {
     checkColorContraste();
   });
+  useEffect(() => {
+    setData([...tasks])
+  }, [tasks]);
   return (
     <section className={`task-body-section ${grid ? "grid" : ""}`}>
       {data.map((element) => (

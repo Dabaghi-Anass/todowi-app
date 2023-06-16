@@ -9,14 +9,13 @@ export default ({onFilter,onAddTodo} : Props) => {
             <input type="search" placeholder="search task" />
           </div>
           <div className="filters">
-            <div></div>
-      <div className="filters-icons">
-        <AppIcon name="GridView" onClick={(e) => onFilter("grid")} />
-        <AppIcon name="Splitscreen" onClick={(e) => onFilter("split")} />
+             <div className="filters-icons">
+              <AppIcon name="GridView" onClick={(e) => onFilter("grid")} />
+               <AppIcon name="Splitscreen" onClick={(e) => onFilter("split")} />
             </div>
       <div>
         <button className="add-todo-button" onClick={onAddTodo}>
-          <span>Add Task / TO DO</span>
+          <span>Add Task</span>
           <AppIcon name="AddBox"/>
         </button>
             </div>

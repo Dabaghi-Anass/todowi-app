@@ -15,23 +15,22 @@ interface Task {
   expirationDate: Date;
   isPinned: boolean;
   isHidden: boolean;
-  boldWords: Word[];
-  italicWords: Word[];
-  underlinedWords: Word[];
-  lineCrossedWords: Word[];
   [key: string]: any;
 }
 
-export function saveTask(id: string) {
+export async function saveTask(task: Task) {
 
 }
 
-export function updateTask(id: string) {
+export async function updateTask(task : Task) {
 
 }
-export function getTask(id: string) {
+export async function getTask(id: string) {
 
 }
-export function deleteTask(id: string) {
+export async function deleteTask(id: string) {
 
 }
+export async function deleteCategory(category: string) { }
+export async function editCategory(category: string) { }
+export async function getTasks() { }

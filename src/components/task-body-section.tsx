@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { hexToHsl, rgbToHex } from "./utils"
 import Task from "./task-wrapper";
-type Word = {
-  word: string;
-  index: number;
-};
+import { deleteTask, saveTask } from "./http";
+
 interface TaskProps {
   id: string;
   title: string;
@@ -16,10 +14,6 @@ interface TaskProps {
   expirationDate: Date;
   isPinned: boolean;
   isHidden: boolean;
-  boldWords: Word[];
-  italicWords: Word[];
-  underlinedWords: Word[];
-  lineCrossedWords: Word[];
 }
 
 interface DataProps {
@@ -32,14 +26,16 @@ export default function TaskBodySection({ data: tasks, grid }: DataProps) {
 
   const handleHideTask = (id: string, e: React.MouseEvent) => {
     console.log("hidden")
+
   }
   const handlePinTask = (id: string, e: React.MouseEvent) => {
-    console.log("pinned")
+    console.log("pinned");
   }
   const handleDeleteTask = (id: string) => {
     let dataCopy = [...data];
     dataCopy = dataCopy.filter(task => task.id !== id);
     setData(prev => dataCopy)
+    deleteTask(id);
   };
   const handleColorChange = (
     id: string,
@@ -52,6 +48,7 @@ export default function TaskBodySection({ data: tasks, grid }: DataProps) {
     const color = e.target.value;
     newData[elementIndex].background = color;
     setData((prev) => newData);
+    saveTask(newData[elementIndex]);
   };
 
   function checkColorContraste() {

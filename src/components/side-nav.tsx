@@ -1,8 +1,13 @@
 import DropDown from "./drop-down"
 import AppIcon from "./app-icon"
-import React, { AnimationEventHandler, TransitionEvent, useEffect, useState } from "react"
+import { useState } from "react"
 
-export default function SideNav() {
+interface Props {
+  categories: string[];
+  filterItems: string[];
+  onFilter: (key: string) => void
+}
+export default function SideNav({ categories, filterItems, onFilter }: Props) {
   const [navClosed, setNavClosed] = useState(true);
 
   const toggleSideNav = () => {
@@ -20,14 +25,14 @@ export default function SideNav() {
       <div className="side-nav-item categories-section">
         {navClosed && <AppIcon name="Tune" style={{
           fontSize: "1.5rem"
-        }} onClick={()=>setNavClosed(false)}/>}
-        {!navClosed && <DropDown type="Categories" data={["hamid","anass", "dabaghi", "car", "fool"]} />}
+        }} onClick={() => setNavClosed(false)} />}
+        {!navClosed && <DropDown type="Categories" data={categories} />}
       </div>
       <div className="side-nav-item filter-section">
         {navClosed && <AppIcon name="FilterAltOutlined" style={{
           fontSize: "1.5rem"
-        }} onClick={()=>setNavClosed(false)} />}
-        {!navClosed && <DropDown type="Filter BY" data={["anass", "dabaghi", "car"]} />}
+        }} onClick={() => setNavClosed(false)} />}
+        {!navClosed && <DropDown type="Filter BY" onFilter={onFilter} data={filterItems} />}
       </div>
     </aside>
   );

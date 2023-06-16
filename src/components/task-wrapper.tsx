@@ -1,10 +1,9 @@
-import React, { useLayoutEffect, useState } from "react";
+import React, { useState } from "react";
+import { ContentEditableEvent } from "react-contenteditable";
 import AppIcon from "./app-icon";
 import FormattedText from "./FormatedText";
-type Word = {
-  word: string;
-  index: number
-}
+import { saveTask } from "./http";
+
 interface Task {
   id: string;
   title: string;
@@ -16,10 +15,6 @@ interface Task {
   expirationDate: Date;
   isPinned: boolean;
   isHidden: boolean;
-  boldWords: Word[];
-  italicWords: Word[];
-  underlinedWords: Word[];
-  lineCrossedWords: Word[];
   [key: string]: any;
 }
 interface TasksProps {
@@ -31,17 +26,6 @@ interface TasksProps {
 }
 export default function TaskWrapper({ item, onDelete, onColorChange, onHide, onPin }: TasksProps) {
   const [itemClone, setItem] = useState<Task>(item);
-  const [selectedText, setSelectedText] = useState("");
-  const [selectionIndex, setSelectionIndex] = useState<number>(0);
-
-  const changeTextAppearence = (type: string) => {
-    let wordsStrings = selectedText.split(' ').map(e => e.trim());
-    let words: Word[] = wordsStrings.map(w => ({ word: w, index: wordsStrings.indexOf(w) }));
-    setItem(prev => ({
-      ...prev,
-      [type]: [...prev[type], ...words]
-    }))
-  };
 
   const updateHeader = (e: React.ChangeEvent<HTMLInputElement>) => {
     setItem(prev => ({
@@ -49,20 +33,15 @@ export default function TaskWrapper({ item, onDelete, onColorChange, onHide, onP
       category: e.target.value
     }))
   }
-  useLayoutEffect(() => {
-    document.addEventListener('mouseup', (e: MouseEvent) => {
-      var selection = window.getSelection();
-      var selectedText = selection?.toString();
-      if (!selection || !selectedText) return;
-      setSelectedText(selectedText);
-      // var range = selection.getRangeAt(0);
-      // var preSelectionRange = range.cloneRange();
-      // preSelectionRange.selectNodeContents(e.target as Node);
-      // preSelectionRange.setEnd(range.startContainer, range.startOffset);
-      // var index = preSelectionRange.toString().trim().split(/\s+/).length;
-      // setSelectionIndex(index);
-    });
-  }, []);
+  function handleEditTaskContent(e: React.ChangeEvent<HTMLTextAreaElement>, id: string) {
+    let value = e.target.value;
+    setItem(prev => ({
+      ...prev,
+      content: value
+    }))
+  }
+
+
 
   return (
     <div className="task-wrapper" style={{
@@ -77,15 +56,10 @@ export default function TaskWrapper({ item, onDelete, onColorChange, onHide, onP
         </span>
       </div>
       <div className="task-wrapper-section content">
-        <FormattedText task={itemClone} />
+        <textarea id="content" className="task-content-wrapper" value={itemClone.content} onChange={(e) => handleEditTaskContent(e, itemClone.id)}></textarea>
       </div>
       <div className="task-wrapper-section footer">
-        <div>
-          <AppIcon name="FormatBold" className="icon icon-bold" onClick={() => changeTextAppearence("boldWords")} />
-          <AppIcon name="FormatItalic" className="icon icon-italic" onClick={() => changeTextAppearence("italicWords")} />
-          <AppIcon name="FormatUnderlined" className="icon icon-underline" onClick={() => changeTextAppearence("underlinedWords")} />
-          <AppIcon name="FormatStrikethrough" className="icon icon-strike" onClick={() => changeTextAppearence("lineCrossedWords")} />
-        </div>
+
         <div>
           <label>
             <input type="color" onChange={(e) => onColorChange(e)} />

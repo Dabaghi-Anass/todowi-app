@@ -1,16 +1,17 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import AppIcon from "./app-icon";
 
-interface DropDownProps{
+interface DropDownProps {
   type: string;
   data: string[];
+  onFilter?: (key: string) => void
 }
-const DropDown = ({ type, data }: DropDownProps) => {
+const DropDown = ({ type, data, onFilter }: DropDownProps) => {
   const [menuOpened, setMenuOpened] = useState(true);
   const openDropDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     setMenuOpened(prev => !prev);
     const container = document.getElementById(`drop-down-${type}`);
-    if(!container) return
+    if (!container) return
     if (menuOpened)
       container.classList.add("toggle-width");
     else
@@ -24,26 +25,26 @@ const DropDown = ({ type, data }: DropDownProps) => {
         <AppIcon id="drop-down-button" style={menuOpened ? {
           transform: "rotate(180deg)",
           fontSize: "1.5em"
-        } : {fontSize: "1.5em"}} onClick={(e) => openDropDown(e)} name="ArrowDropDownOutlined"/>
+        } : { fontSize: "1.5em" }} onClick={(e) => openDropDown(e)} name="ArrowDropDownOutlined" />
       </div>
       <div className="drop-down-body">
         {type === "Categories" ? <>
-          {data.sort().map(category => <div key={category}>
-
-            <span className="category-name">
+          {data.map(category => <div key={category}>
+            <span className="category-name" >
               {category}
             </span>
             <div className="buttons">
               <AppIcon name="EditOutlined" />
               <AppIcon name="DeleteOutlined" />
             </div>
-        </div>)}
-        </> : <>        {data.map(category => <div key={category}>
+          </div>)}
+        </> : <>
+          {data.map(category => <div key={category} onClick={() => onFilter ? onFilter(category) : null}>
             <span className="filter-name">
               {category}
             </span>
-        </div>)}</>
-}
+          </div>)}</>
+        }
       </div>
     </div>
   )

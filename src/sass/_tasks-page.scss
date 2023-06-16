@@ -21,16 +21,16 @@
     }
 
     font-size: 14px;
-    background: $whity-green;
+    background: white;
     max-width: 50%;
     min-width: 280px;
     min-height: 100vh;
-    box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.15);
     @include flex(start, start);
     flex-direction: column;
     padding: 1em;
     gap: 2em;
-    position: relative;
+
     z-index: 1;
 
     .head-section {
@@ -361,4 +361,18 @@ button,
       border-radius: 0.2rem;
     }
   }
+}
+
+.task-content-wrapper {
+  width: 100%;
+  height: 100%;
+  outline: none;
+  background: transparent;
+  border: none;
+  resize: none;
+  color: inherit;
+  line-height: 1.5;
+}
+.filter-name{
+  margin-bottom: .4rem;
 }

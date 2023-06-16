@@ -58,3 +58,26 @@ body {
     font-size: 14px;
   }
 }
+
+.scrollToTop {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  transform: translate(-50%, -50%);
+  border: 4px solid black;
+  border-radius: 50%;
+  aspect-ratio: 1;
+  color: white;
+  font-size: 2rem;
+  @include flex;
+  background: $green;
+  transition: opacity 250ms;
+
+  & .button {
+    @include flex;
+  }
+
+  &:hover {
+    opacity: .7;
+  }
+}

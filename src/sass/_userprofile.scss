@@ -1,0 +1,93 @@
+@import "../sass/_mixins", "../sass/_vars";
+
+section.profile {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: $dark-teal;
+  padding: 2rem;
+  @include flex(center, start);
+  flex-direction: column;
+  gap: 0.7rem;
+  min-height: 40vh;
+  min-width: max-content;
+  max-width: 50vw;
+  width: 25vw;
+  & .user-profile-img {
+    background: $green;
+    position: relative;
+    aspect-ratio: 1;
+    width: 60%;
+    border-radius: 100%;
+    overflow: hidden;
+    font-size: 5rem;
+    isolation: isolate;
+    & img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      
+    }
+    & span {
+      position: absolute;
+      @include flex;
+      inset: 0;
+      z-index: -1;
+    }
+  }
+  & .info:nth-child(2) {
+    margin-top: 1rem;
+    font-size: 1.5rem;
+  }
+  & .info:is(:nth-child(3), :nth-child(4)) {
+    font-size: 0.7rem;
+  }
+  & .info:nth-child(3) {
+    color: rgb(72, 78, 255);
+  }
+
+  & .p-btn {
+    top: 0;
+    right: 0;
+    transform: translate(-50%, 50%);
+    position: absolute;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    &:hover {
+      filter: brightness(0.6);
+    }
+  }
+  & .log-out {
+    background: rgb(48, 162, 250);
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
+    transition: filter 250ms;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    &:hover {
+      filter: brightness(0.6);
+    }
+  }
+}
+@media screen and (max-width: 768px) {
+  section.profile {
+    padding: 2rem;
+    width: 90%  !important;
+    font-size: 1rem;
+  }
+}
+.profileButton {
+  position: relative;
+  @include flex;
+  width: 2rem;
+  aspect-ratio: 1;
+  cursor: pointer;
+  background: $green;
+  border-radius: 100%;
+  color: white;
+  font-weight: bold;
+  transition: opacity 250ms;
+}

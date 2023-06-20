@@ -60,15 +60,6 @@ nav {
   }
 }
 
-.profileButton {
-  @include flex;
-  width: 2rem;
-  aspect-ratio: 1;
-  background: $green;
-  border-radius: 100%;
-  color: white;
-  font-weight: bold;
-}
 
 footer {
   background: $clr-dark;

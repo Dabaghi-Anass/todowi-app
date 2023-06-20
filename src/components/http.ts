@@ -2,8 +2,8 @@
 
 type Word = {
   word: string;
-  index: number
-}
+  index: number;
+};
 interface Task {
   id: string;
   title: string;
@@ -18,19 +18,11 @@ interface Task {
   [key: string]: any;
 }
 
-export async function saveTask(task: Task) {
+export async function saveTask(task: Task) {}
 
-}
-
-export async function updateTask(task : Task) {
-
-}
-export async function getTask(id: string) {
-
-}
-export async function deleteTask(id: string) {
-
-}
-export async function deleteCategory(category: string) { }
-export async function editCategory(category: string) { }
-export async function getTasks() { }
+export async function updateTask(task: Task) {}
+export async function getTask(id: string) {}
+export async function deleteTask(id: string) {}
+export async function deleteCategory(category: string) {}
+export async function editCategory(category: string) {}
+export async function getTasks() {}

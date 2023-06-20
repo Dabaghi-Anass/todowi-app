@@ -7,12 +7,12 @@ export const HomePage = () => {
   return (
     <>
       <header className="fullHeight">
-
         <AppNavBar />
         <img src={headerImage} alt="" className="header-image" />
         <section className="hero">
           <p className="app-salutation">
-            increase your<br />
+            increase your
+            <br />
             productivity
           </p>
           <div className="cta">
@@ -23,18 +23,19 @@ export const HomePage = () => {
       <section className="description fullHeight">
         <p>
           For better productivité you need
-          <br />better management of your tasks
+          <br />
+          better management of your tasks
           <br />
           we offer a high Level management
           <br />
           system to manage your todos
-          <br />such as filtering categorizing
+          <br />
+          such as filtering categorizing
           <br />
           and more
         </p>
         <img src={listImage} alt="image of a list" />
       </section>
     </>
-
-  )
-}
+  );
+};

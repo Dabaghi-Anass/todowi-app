@@ -2,9 +2,9 @@ import { AppLink } from "./app-link";
 import { Logo } from "./app-logo";
 import UserProfile from "./user-profile";
 import AppIcon from "./app-icon";
-import urls from "../utilities/urls.json"
+import urls from "../utilities/urls.json";
 
-export function AppNavBar(){
+export function AppNavBar() {
   return (
     <nav>
       <Logo />
@@ -13,9 +13,9 @@ export function AppNavBar(){
         <UserProfile />
       </div>
     </nav>
-  )
+  );
 }
-export function AppFooter(){
+export function AppFooter() {
   return (
     <footer>
       <div className="footer-logo">
@@ -24,15 +24,15 @@ export function AppFooter(){
       </div>
       <div>
         <a target="_blank" href={urls.facebook}>
-        <AppIcon name="Facebook" />
+          <AppIcon name="Facebook" />
         </a>
         <a target="_blank" href={urls.instagram}>
-        <AppIcon name="Instagram" />
+          <AppIcon name="Instagram" />
         </a>
         <a target="_blank" href={urls.linkedin}>
-        <AppIcon name="LinkedIn" />
+          <AppIcon name="LinkedIn" />
         </a>
       </div>
     </footer>
-  )
+  );
 }

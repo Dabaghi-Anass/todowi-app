@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom'
+import { Link } from "react-router-dom";
 import { default as links } from "../utilities/links.json";
-interface props{
+interface props {
   id: keyof typeof links;
   label?: string;
   children?: React.ReactNode;
@@ -9,12 +9,20 @@ interface props{
   style?: Object;
   rest?: [any];
 }
-export const AppLink = ({ id , button,children,icon,label ,style,...rest}: props) => {
+export const AppLink = ({
+  id,
+  button,
+  children,
+  icon,
+  label,
+  style,
+  ...rest
+}: props) => {
   return (
     <Link to={`${links[id].path}`}>
-        <button className={`link ${button && "button"}`} style={style} {...rest}>
+      <button className={`link ${button && "button"}`} style={style} {...rest}>
         {icon ? children : label ? label : `${links[id].label}`}
-    </button>
+      </button>
     </Link>
-  )
-}
+  );
+};

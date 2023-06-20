@@ -5,10 +5,9 @@
   position: relative;
   font-size: 2rem;
 
-  &>a {
+  & > a {
     text-decoration: none;
     font-weight: $font-weight-light;
     color: $green;
   }
 }
-

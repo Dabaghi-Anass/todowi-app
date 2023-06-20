@@ -1,4 +1,4 @@
-@mixin flex($align : center, $justify :center) {
+@mixin flex($align: center, $justify: center) {
   display: flex;
   align-items: $align;
   justify-content: $justify;
@@ -9,7 +9,7 @@
   border: 2px solid $dark-border;
 }
 
-@function font($min : 1rem, $max : 1.5rem) {
+@function font($min: 1rem, $max: 1.5rem) {
   @return clamp($min, 0.1rem + 3vw, $max);
 }
 

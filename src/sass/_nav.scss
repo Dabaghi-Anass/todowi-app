@@ -15,17 +15,17 @@ nav {
   color: $green;
   font-weight: 600;
   font-size: 1rem;
-  letter-spacing: .01rem;
+  letter-spacing: 0.01rem;
   transition: all 150ms;
   border: none;
   text-transform: capitalize;
   background: transparent;
   text-decoration: none;
-  :has(&){
+  :has(&) {
     text-decoration: none;
   }
 
-  &>* {
+  & > * {
     color: $green;
     text-decoration: none;
   }
@@ -33,23 +33,23 @@ nav {
   &.button {
     background: $green;
     color: white;
-    padding: .7rem 1rem;
+    padding: 0.7rem 1rem;
     width: 100%;
     border: 1px solid $green;
     border-radius: 1.5rem;
-    &>* {
+    & > * {
       color: white;
     }
 
     &:hover {
-      &>* {
+      & > * {
         color: $green;
       }
     }
   }
 
   &:hover {
-    &>* {
+    & > * {
       color: $text-clr;
     }
   }
@@ -73,16 +73,16 @@ nav {
 footer {
   background: $clr-dark;
   color: white;
-  padding: .3rem 1rem;
+  padding: 0.3rem 1rem;
   text-transform: capitalize;
   @include flex(center, space-between);
 
-  &>.footer-logo {
+  & > .footer-logo {
     @include flex(center, start);
     gap: 1rem;
   }
 
-  &>.footer-logo+* {
+  & > .footer-logo + * {
     @include flex;
     gap: 1rem;
     color: $green;
@@ -105,12 +105,12 @@ footer {
     padding: 1rem;
   }
 }
-[data-speciallink]{
-    width: 100%;
-    color: $text-clr;
-    font-weight: 300;
-    font-size: .8rem;
-    &:hover {
-      color: lighten($text-clr, 40);
-    }
+[data-speciallink] {
+  width: 100%;
+  color: $text-clr;
+  font-weight: 300;
+  font-size: 0.8rem;
+  &:hover {
+    color: lighten($text-clr, 40);
+  }
 }

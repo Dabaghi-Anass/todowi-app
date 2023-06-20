@@ -1,22 +1,22 @@
 {
-  "callToAction" : {
-    "label" : "Get Started",
-    "path" : "/manager"
+  "callToAction": {
+    "label": "Get Started",
+    "path": "/manager"
   },
-  "/" : {
-    "label" : "Go Back To Home Page",
-    "path" : "/"
+  "/": {
+    "label": "Go Back To Home Page",
+    "path": "/"
   },
-  "login" : {
-    "label" : "login",
-    "path" : "/auth/login"
+  "login": {
+    "label": "login",
+    "path": "/auth/login"
   },
-  "register" : {
-    "label" : "register",
-    "path" : "/auth/register"
+  "register": {
+    "label": "register",
+    "path": "/auth/register"
   },
-  "manager" : {
-    "label" : "Get Started",
-    "path" : "/manager"
+  "manager": {
+    "label": "Get Started",
+    "path": "/manager"
   }
 }

@@ -11,8 +11,8 @@ export function hexToHsl(hex: string) {
     max === min
       ? 0
       : L > 0.5
-        ? (max - min) / (2 - max - min)
-        : (max - min) / (max + min);
+      ? (max - min) / (2 - max - min)
+      : (max - min) / (max + min);
   let H = 0;
   if (max !== min) {
     switch (max) {
@@ -44,4 +44,3 @@ export function rgbToHex(color: string) {
   let blue = b.toString(16).padStart(2, "0");
   return "#" + red + green + blue;
 }
-

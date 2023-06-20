@@ -1,10 +1,11 @@
 @use "./_applogo";
-@import "./_mixins", "./_popup", "./_nav", "./_vars", "./_scrollbar", "./_home-page", "./_auth-page", "./_tasks-page";
-@import url('https://fonts.googleapis.com/css2?family=Maven+Pro&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
+@import "./_mixins", "./_popup", "./_nav", "./_vars", "./_scrollbar",
+  "./_home-page", "./_auth-page", "./_tasks-page";
+@import url("https://fonts.googleapis.com/css2?family=Maven+Pro&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap");
 
 :root {
-  font-family: 'Maven Pro', helvetica, sans-serif;
+  font-family: "Maven Pro", helvetica, sans-serif;
 }
 
 .fullHeight {
@@ -52,8 +53,7 @@ body {
   height: 100vh;
 }
 
-
-@media screen and (max-width : 768px) {
+@media screen and (max-width: 768px) {
   body {
     font-size: 14px;
   }
@@ -78,6 +78,6 @@ body {
   }
 
   &:hover {
-    opacity: .7;
+    opacity: 0.7;
   }
 }

@@ -1,7 +1,7 @@
 @import "./_mixins";
 .auth-page {
   background-image: getImage("authpagebackground");
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
   @include flex;
   // height: 100vh;

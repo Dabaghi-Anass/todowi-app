@@ -11,10 +11,10 @@ export const HomePage = () => {
         <img src={headerImage} alt="" className="header-image" />
         <section className="hero">
           <p className="app-salutation">
-            increase your
-            <br />
-            productivity
+            increase your productivity <br />
+            with todowi
           </p>
+          <p className="sub">never get lost</p>
           <div className="cta">
             <AppLink id="manager" button />
           </div>

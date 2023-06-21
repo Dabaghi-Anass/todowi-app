@@ -10,7 +10,7 @@ header {
     position: absolute;
     inset: calc($padding * -1);
     z-index: -1;
-    background: linear-gradient(90deg, $green-light 30%, transparent);
+    background: linear-gradient(90deg, #daffe2 30%, transparent);
     opacity: 0.7;
   }
   & .header-image {
@@ -28,7 +28,7 @@ header {
     flex-direction: column;
     gap: 2.5rem;
     & p {
-      font-size: font(1rem, 4rem);
+      font-size: font(3rem, 5rem);
       line-height: 1;
       letter-spacing: 0.3rem;
       font-family: $font-sec;
@@ -70,10 +70,16 @@ header {
   }
 }
 
-@media (width <= 1000px) {
-  .description {
+@media screen and (max-width: 1000px) {
+  header {
     img {
       display: none;
+    }
+    & .hero {
+      width: 100%;
+      text-align: center;
+      display: grid;
+      place-content: center;
     }
   }
 }

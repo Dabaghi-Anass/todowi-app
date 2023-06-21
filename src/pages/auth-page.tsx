@@ -1,9 +1,8 @@
 import AppIcon from "../components/app-icon";
-import facebookIconSrc from "../assets/icons/facebook.svg";
-import googleIconSrc from "../assets/icons/google.svg";
 import { Routes, Route } from "react-router-dom";
 import { InputAdornment, TextField } from "@mui/material";
 import { AppLink } from "../components/app-link";
+import GoogleSvg from "../components/googlesvg";
 import { useState } from "react";
 export const AuthPage = () => {
   return (
@@ -78,18 +77,20 @@ function LoginHandler() {
                   data-speciallink
                   label="don't have an account ? register"
                 />
+                <div className="external-auth">
+                  <button role="button" className="special-btn google">
+                    <GoogleSvg />
+                    sign in with google
+                  </button>
+                  <button role="button" className="special-btn">
+                    <AppIcon name="GitHub" />
+                    sign in with github
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </form>
-        <div className="form-item">
-          <button className="external-auth">
-            <img src={facebookIconSrc} alt="facebook" />
-          </button>
-          <button className="external-auth">
-            <img src={googleIconSrc} alt="google" />
-          </button>
-        </div>
       </div>
     </main>
   );
@@ -200,18 +201,20 @@ function RegisterHandler() {
                   data-speciallink
                   label="already have an account ? login"
                 />
+                <div className="external-auth">
+                  <button role="button" className="special-btn google">
+                    <GoogleSvg />
+                    sign up with google
+                  </button>
+                  <button role="button" className="special-btn">
+                    <AppIcon name="GitHub" />
+                    sign up with github
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </form>
-        <div className="form-item">
-          <button className="external-auth">
-            <img src={facebookIconSrc} alt="facebook" />
-          </button>
-          <button className="external-auth">
-            <img src={googleIconSrc} alt="google" />
-          </button>
-        </div>
       </div>
     </main>
   );

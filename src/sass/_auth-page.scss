@@ -70,3 +70,33 @@
     }
   }
 }
+.external-auth {
+  @include flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.special-btn {
+  background: white;
+  border: none;
+  border: 1px solid black;
+  border-radius: 3rem;
+  @include flex;
+  text-transform: capitalize;
+  gap: 1rem;
+  padding: 0.8rem 1rem;
+  width: fit-content;
+  font-weight: bold;
+  & .button {
+    @include flex;
+    font-size: 2rem;
+  }
+  transition: opacity 250ms;
+  &:hover {
+    opacity: 0.5;
+  }
+}
+.special-btn.google {
+  & svg {
+    width: 35px;
+  }
+}

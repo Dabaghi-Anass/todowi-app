@@ -1,50 +1,49 @@
 import { useLayoutEffect, useState } from "react";
 import "../sass/_userprofile.scss";
 import maleImg from "../assets/pngs/male.png";
+import { AppLink } from "./app-link";
+import AppIcon from "./app-icon";
 
 const UserProfile = () => {
   const [expanded, setExpanded] = useState<boolean>(false);
-  function close() {
-    setExpanded((p) => false);
-  }
-  useLayoutEffect(() => {
-    addEventListener("click", close);
-    return () => removeEventListener("click", close);
-  }, []);
+
   return (
-    <div
-      className="profileButton"
-      onClick={(e) => {
-        e.stopPropagation();
-        setExpanded((p) => true);
-      }}
-    >
-      <span>B</span>
+    <div className="profile-container">
+      <div
+        className="profileButton"
+        onClick={(e) => {
+          e.stopPropagation();
+          setExpanded((p) => !expanded);
+        }}
+      >
+        B
+      </div>
       {expanded && (
         <section className="profile">
-          <div className="user-profile-img">
-            <span>B</span>
-            <img src={maleImg} alt="user" />
+          <div className="wrapper">
+            <div className="profile-head">
+              <div className="profile-infos">
+                <div className="profile-img">
+                  <span>B</span>
+                  <img src={maleImg} />
+                </div>
+                <div className="profile-credentiels">
+                  <span className="user-name">anass dabaghi</span>
+                  <span className="user-email">
+                    anass.debbaghi123@gmail.com
+                  </span>
+                </div>
+              </div>
+              <AppLink id="profile" button />
+            </div>
+            <div className="profile-body">
+              <button className="p-btn">
+                <AppIcon style={{ fontSize: "1.5rem" }} name="Logout" />
+                <span>Log Out</span>
+              </button>
+            </div>
           </div>
-          <div className="info" title="user name">
-            anass dabaghi
-          </div>
-          <div className="info" title="email">
-            anass.debbaghi123@gmail.com
-          </div>
-          <div className="info" title="last logged in">
-            last log in : 19:18 Mon
-          </div>
-          <button
-            className="p-btn close-btn"
-            onClick={(e) => {
-              e.stopPropagation();
-              setExpanded((p) => false);
-            }}
-          >
-            &#x2716;
-          </button>
-          <button className="log-out">Log out</button>
+          <div className="profile-footer">last visit : 19:18 Mon</div>
         </section>
       )}
     </div>

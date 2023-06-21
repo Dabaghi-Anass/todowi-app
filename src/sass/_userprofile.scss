@@ -1,86 +1,106 @@
 @import "../sass/_mixins", "../sass/_vars";
 
+.profile-container {
+  position: relative;
+}
 section.profile {
+  animation: show 200ms ease-in-out forwards;
+  opacity: 0;
+  $radius: 1rem;
+  border-radius: $radius;
   position: absolute;
-  top: 0;
-  right: 0;
+  top: calc(100% + 10px);
+  right: 50%;
   background: $dark-teal;
-  padding: 2rem;
-  @include flex(center, start);
-  flex-direction: column;
-  gap: 0.7rem;
-  min-height: 40vh;
-  min-width: max-content;
-  max-width: 50vw;
-  width: 25vw;
-  & .user-profile-img {
-    background: $green;
-    position: relative;
-    aspect-ratio: 1;
-    width: 60%;
-    border-radius: 100%;
-    overflow: hidden;
-    font-size: 5rem;
-    isolation: isolate;
-    & img {
-      width: 100%;
-      aspect-ratio: 1;
-      object-fit: cover;
-      
-    }
-    & span {
-      position: absolute;
-      @include flex;
-      inset: 0;
-      z-index: -1;
-    }
+  min-width: min(600px, 90vw);
+  color: white;
+  // overflow: hidden;
+  & .wrapper {
+    width: 100%;
+    @include flex(stretch, stretch);
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 0.7rem;
   }
-  & .info:nth-child(2) {
-    margin-top: 1rem;
-    font-size: 1.5rem;
+  & .profile-body {
+    border-radius: 0 0 $radius $radius;
+    background: $darker-teal;
+    padding: 1rem 2rem;
   }
-  & .info:is(:nth-child(3), :nth-child(4)) {
-    font-size: 0.7rem;
-  }
-  & .info:nth-child(3) {
-    color: rgb(72, 78, 255);
-  }
-
   & .p-btn {
-    top: 0;
-    right: 0;
-    transform: translate(-50%, 50%);
-    position: absolute;
     background: none;
     border: none;
-    color: white;
+    color: inherit;
+    font-weight: 500;
     font-size: 1rem;
+    @include flex(center, start);
+    gap: 1rem;
+    width: 100%;
+    transition: opacity 300ms;
     &:hover {
-      filter: brightness(0.6);
+      opacity: 0.5;
     }
   }
-  & .log-out {
-    background: rgb(48, 162, 250);
-    border: none;
-    color: white;
-    padding: 0.5rem 1rem;
-    transition: filter 250ms;
-    border-radius: 0.5rem;
-    font-size: 1rem;
-    &:hover {
-      filter: brightness(0.6);
+  & .profile-footer {
+    border-top: 1px solid rgb(125, 125, 125);
+    @include flex(center, start);
+    padding: 1rem 2rem;
+  }
+  & .profile-head {
+    @include flex(start, stretch);
+    background: $darker-teal;
+    border-radius: $radius $radius 0 0;
+    flex-direction: column;
+    padding: 1rem 2rem;
+    width: 100%;
+    & a {
+      width: 90%;
+      padding: 0.3rem 1rem;
+      & .link {
+        font-size: 0.7rem;
+      }
+      align-self: flex-end;
     }
   }
-}
-@media screen and (max-width: 768px) {
-  section.profile {
-    padding: 2rem;
-    width: 90%  !important;
-    font-size: 1rem;
+  & .profile-credentiels {
+    @include flex(flex-start, flex-start);
+    flex-direction: column;
+    gap: 0.2rem;
+    & .user-name {
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+    & .user-email {
+      font-size: 0.8rem;
+      word-break: break-all;
+      color: rgb(0, 255, 166);
+    }
+  }
+  & .profile-infos {
+    & .profile-img {
+      isolation: isolate;
+      width: 70px;
+      aspect-ratio: 1;
+      background: $green;
+      border-radius: 100%;
+      @include flex;
+      & img {
+        width: 100%;
+      }
+      position: relative;
+      & span {
+        position: absolute;
+        inset: 0;
+        @include flex;
+        font-size: 2rem;
+        font-weight: bold;
+        color: white;
+        z-index: -1;
+      }
+    }
   }
 }
 .profileButton {
-  position: relative;
   @include flex;
   width: 2rem;
   aspect-ratio: 1;
@@ -90,4 +110,22 @@ section.profile {
   color: white;
   font-weight: bold;
   transition: opacity 250ms;
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  section.profile {
+    font-size: 10px;
+  }
+}
+
+@keyframes show {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

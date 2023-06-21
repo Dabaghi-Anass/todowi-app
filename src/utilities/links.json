@@ -3,6 +3,10 @@
     "label": "Get Started",
     "path": "/manager"
   },
+  "profile": {
+    "label": "Edit Profile",
+    "path": "/profile"
+  },
   "/": {
     "label": "Go Back To Home Page",
     "path": "/"

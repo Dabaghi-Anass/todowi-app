@@ -6,6 +6,8 @@ import React, { useEffect, useRef, useState } from "react";
 import ScrollToTop from "../components/scrollToTop";
 import { nanoid } from "nanoid";
 import Context from "../components/context";
+import { Logo } from "../components/app-logo";
+import UserProfile from "../components/user-profile";
 
 interface Task {
   id: string;
@@ -31,9 +33,12 @@ export const TasksManager = () => {
     setGrid(false);
   }
   function deleteTask(id: string) {
-    let tasksCopy = [...tasks];
+    let tasksCopy = [...tasksBackup.current];
+    let stateTasksCopy = [...tasks];
     tasksCopy = tasksCopy.filter((e) => e.id !== id);
-    setTasks((prev) => tasksCopy);
+    stateTasksCopy = stateTasksCopy.filter((e) => e.id !== id);
+    setTasks((prev) => stateTasksCopy);
+    tasksBackup.current = [...tasksCopy];
   }
   function saveTask(task: Task) {
     let tasksCopy = [...tasksBackup.current];
@@ -183,10 +188,12 @@ export const TasksManager = () => {
       </Context.Provider>
       <section className="todos-container">
         <section className="task-head-section">
+          <span></span>
           <h1>
-            TODOWI
-            <span>tasks</span>
+            <Logo />
+            <span className="sub">tasks</span>
           </h1>
+          <UserProfile />
         </section>
         <SearchAndFilterSection
           onAddTodo={handleCreateTodo}

@@ -15,6 +15,7 @@ section.profile {
   min-width: min(600px, 90vw);
   color: white;
   // overflow: hidden;
+  letter-spacing: normal;
   & .wrapper {
     width: 100%;
     @include flex(stretch, stretch);
@@ -71,12 +72,16 @@ section.profile {
       text-transform: capitalize;
     }
     & .user-email {
-      font-size: 0.8rem;
+      font-size: 13px;
       word-break: break-all;
       color: rgb(0, 255, 166);
     }
   }
   & .profile-infos {
+    @include flex(center, start);
+    gap: 1rem;
+    font-size: 1rem;
+    width: 100%;
     & .profile-img {
       isolation: isolate;
       width: 70px;

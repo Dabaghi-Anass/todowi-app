@@ -81,7 +81,7 @@ header {
     }
   }
   header {
-    img {
+    & img.header-image {
       display: none;
     }
     & .hero {

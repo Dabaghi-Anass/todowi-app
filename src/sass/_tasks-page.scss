@@ -3,15 +3,15 @@
 .tasks-page {
   background: getImage("tasks-page-background");
   min-height: 100%;
+  width: 100%;
   display: flex;
   align-items: stretch;
-
   & nav {
     padding: 0.5em 1em;
   }
 
   .side-nav {
-    position: sticky;
+    position: fixed;
     top: 0;
     transition: min-width 300ms, max-width 300ms;
 
@@ -133,8 +133,10 @@ button,
 
 .todos-container {
   @include flex(stretch, stretch);
+  flex-shrink: 1;
   padding: 1rem;
   gap: 1rem;
+  padding-left: 4rem;
   flex-direction: column;
   width: 100%;
 
@@ -143,15 +145,19 @@ button,
   }
 
   & .task-head-section {
-    font-size: 2rem;
+    @include flex(center, space-between);
     color: $green;
-    font-family: $font-sec;
     text-align: center;
     font-weight: 100;
     letter-spacing: 3px;
-
-    & span {
-      font-size: 1.5rem;
+    & h1 {
+      font-size: 2rem;
+      font-family: $font-sec;
+      @include flex(baseline, center);
+      // font-family: $font-sec;
+    }
+    & span.sub {
+      font-size: 1.2rem;
       margin-left: 0.5rem;
     }
   }

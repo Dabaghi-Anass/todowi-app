@@ -108,6 +108,7 @@ section.profile {
 }
 .profileButton {
   @include flex;
+  max-width: 2rem;
   width: 2rem;
   aspect-ratio: 1;
   cursor: pointer;
@@ -116,6 +117,10 @@ section.profile {
   color: white;
   font-weight: bold;
   transition: opacity 250ms;
+  overflow: hidden;
+  & img {
+    width: 100%;
+  }
   &:hover {
     opacity: 0.7;
   }

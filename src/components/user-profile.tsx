@@ -1,12 +1,27 @@
-import { useLayoutEffect, useState } from "react";
 import "../sass/_userprofile.scss";
 import maleImg from "../assets/pngs/male.png";
-import { AppLink } from "./app-link";
 import AppIcon from "./app-icon";
-
+import { AppLink } from "./app-link";
+import { useEffect, useState } from "react";
+import { auth } from "../utilities/database/firebase";
+import { signOut, User } from "firebase/auth";
 const UserProfile = () => {
   const [expanded, setExpanded] = useState<boolean>(false);
-
+  const [user, setUser] = useState<User | null>(auth.currentUser);
+  async function setCurrentUser() {
+    setTimeout(() => {
+      if (!auth?.currentUser) return;
+      setUser((p) => auth.currentUser);
+    }, 1000);
+  }
+  useEffect(() => {
+    setCurrentUser();
+  }, []);
+  async function logOut() {
+    await signOut(auth);
+    window.location.replace("/");
+  }
+  if (!user) return <span></span>;
   return (
     <div className="profile-container">
       <div
@@ -16,7 +31,8 @@ const UserProfile = () => {
           setExpanded((p) => !expanded);
         }}
       >
-        B
+        <img src={user?.photoURL || maleImg} />
+        {/* {user?.email?.charAt(0).toUpperCase()} */}
       </div>
       {expanded && (
         <section className="profile">
@@ -24,20 +40,20 @@ const UserProfile = () => {
             <div className="profile-head">
               <div className="profile-infos">
                 <div className="profile-img">
-                  <span>B</span>
-                  <img src={maleImg} />
+                  <span>{user?.email?.charAt(0).toUpperCase() || "A"}</span>
+                  <img src={user.photoURL || maleImg} />
                 </div>
                 <div className="profile-credentiels">
-                  <span className="user-name">anass dabaghi</span>
-                  <span className="user-email">
-                    anass.debbaghi123@gmail.com
+                  <span className="user-name">
+                    {user?.displayName || "no user"}
                   </span>
+                  <span className="user-email">{user?.email}</span>
                 </div>
               </div>
               <AppLink id="profile" button />
             </div>
             <div className="profile-body">
-              <button className="p-btn">
+              <button className="p-btn" onClick={logOut}>
                 <AppIcon style={{ fontSize: "1.5rem" }} name="Logout" />
                 <span>Log Out</span>
               </button>

@@ -115,7 +115,8 @@ export default function RegisterHandler() {
     const { repeatPassword, ...credentials } = data;
     registerNewUser(credentials);
   }
-  async function signWithGoogle() {
+  async function signWithGoogle(e: React.FormEvent) {
+    e.preventDefault();
     try {
       await signInWithPopup(auth, googleProvider);
       window.location.replace("/");

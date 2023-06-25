@@ -3,13 +3,31 @@ import { Logo } from "./app-logo";
 import UserProfile from "./user-profile";
 import AppIcon from "./app-icon";
 import urls from "../utilities/urls.json";
-
+import { auth } from "../utilities/database/firebase";
+import { User } from "firebase/auth";
+import { useLayoutEffect, useState } from "react";
 export function AppNavBar() {
+  const [user, setUser] = useState<User | null>(auth.currentUser);
+  async function getUser(): Promise<User> {
+    return new Promise((resolve) => {
+      let id = setInterval(() => {
+        if (auth?.currentUser) {
+          resolve(auth?.currentUser);
+          clearInterval(id);
+        }
+      }, 10);
+    });
+  }
+  useLayoutEffect(() => {
+    (async () => {
+      setUser(await getUser());
+    })();
+  }, []);
   return (
     <nav>
       <Logo />
       <div>
-        <AppLink id="login" />
+        {!user && <AppLink id="login" />}
         <UserProfile />
       </div>
     </nav>

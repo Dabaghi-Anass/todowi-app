@@ -8,11 +8,18 @@ import { signOut, User } from "firebase/auth";
 const UserProfile = () => {
   const [expanded, setExpanded] = useState<boolean>(false);
   const [user, setUser] = useState<User | null>(auth.currentUser);
+  async function getUser(): Promise<User> {
+    return new Promise((resolve) => {
+      let id = setInterval(() => {
+        if (auth?.currentUser) {
+          resolve(auth?.currentUser);
+          clearInterval(id);
+        }
+      }, 10);
+    });
+  }
   async function setCurrentUser() {
-    setTimeout(() => {
-      if (!auth?.currentUser) return;
-      setUser((p) => auth.currentUser);
-    }, 1000);
+    setUser(await getUser());
   }
   useEffect(() => {
     setCurrentUser();

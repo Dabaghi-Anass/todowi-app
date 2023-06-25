@@ -55,7 +55,9 @@ const UserProfile = () => {
               </button>
             </div>
           </div>
-          <div className="profile-footer">last visit : 19:18 Mon</div>
+          <div className="profile-footer">
+            last visit : {user.metadata.lastSignInTime}
+          </div>
         </section>
       )}
     </div>

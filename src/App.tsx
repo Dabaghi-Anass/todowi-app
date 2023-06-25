@@ -5,6 +5,7 @@ import { HomePage } from "./pages/home-page";
 import { NotFound } from "./pages/not-found";
 import { TasksManager } from "./pages/task-manager";
 import { AuthPage } from "./pages/auth-page";
+import { Profile } from "./pages/profile-page";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <main>
         <Routes>
           <Route index path="/" element={<HomePage />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/auth" element={<AuthPage />}>
             <Route path="login"></Route>
             <Route path="register"></Route>

@@ -89,6 +89,8 @@ section.profile {
       aspect-ratio: 1;
       background: $green;
       border-radius: 100%;
+
+      overflow: hidden;
       @include flex;
       & img {
         width: 100%;

@@ -12,7 +12,6 @@ export default function SideNav({ categories, filterItems, onFilter }: Props) {
   const toggleSideNav = () => {
     setNavClosed((prev) => !prev);
   };
-
   return (
     <aside className={`side-nav ${navClosed && "nav-closed"}`}>
       <div className="side-nav-item head-section">

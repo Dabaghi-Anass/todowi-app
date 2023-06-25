@@ -22,6 +22,7 @@ export function AppNavBar() {
     (async () => {
       setUser(await getUser());
     })();
+    console.log(user);
   }, []);
   return (
     <nav>

@@ -7,7 +7,7 @@ import { auth } from "../utilities/database/firebase";
 import { signOut, User } from "firebase/auth";
 const UserProfile = () => {
   const [expanded, setExpanded] = useState<boolean>(false);
-  const [user, setUser] = useState<User | null>(auth.currentUser);
+  const [user, setUser] = useState<User | undefined>(undefined);
   async function getUser(): Promise<User> {
     return new Promise((resolve) => {
       let id = setInterval(() => {
@@ -19,7 +19,8 @@ const UserProfile = () => {
     });
   }
   async function setCurrentUser() {
-    setUser(await getUser());
+    let currentUserRef = await getUser();
+    setUser(currentUserRef);
   }
   useEffect(() => {
     setCurrentUser();
@@ -38,8 +39,7 @@ const UserProfile = () => {
           setExpanded((p) => !expanded);
         }}
       >
-        <img src={user?.photoURL || maleImg} />
-        {/* {user?.email?.charAt(0).toUpperCase()} */}
+        <img src={user.photoURL || maleImg} />
       </div>
       {expanded && (
         <section className="profile">
@@ -47,7 +47,6 @@ const UserProfile = () => {
             <div className="profile-head">
               <div className="profile-infos">
                 <div className="profile-img">
-                  <span>{user?.email?.charAt(0).toUpperCase() || "A"}</span>
                   <img src={user.photoURL || maleImg} />
                 </div>
                 <div className="profile-credentiels">

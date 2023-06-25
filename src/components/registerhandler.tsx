@@ -8,6 +8,7 @@ import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, googleProvider } from "../utilities/database/firebase";
 
 import LoadingSpinner from "./loader";
+import { createUserDoc } from "../utilities/http";
 type Data = {
   userName: string;
   email: string;
@@ -95,12 +96,13 @@ export default function RegisterHandler() {
   async function registerNewUser(credentials: RegisterCredentials) {
     try {
       setLoading(true);
-      const { email, password } = credentials;
+      const { email, password, userName } = credentials;
       const { user } = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
+      await createUserDoc(user, { displayName: userName, photoURL: "" });
       setLoading(false);
       window.location.replace("/");
     } catch (e: any) {

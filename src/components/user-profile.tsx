@@ -31,7 +31,10 @@ const UserProfile = () => {
           setExpanded((p) => !expanded);
         }}
       >
-        <img src={user.photoURL || maleImg} />
+        <picture>
+          <img src={user?.photoURL || ""} alt="" />
+          <img src={maleImg} alt="" />
+        </picture>
       </div>
       {expanded && (
         <section className="profile">
@@ -39,7 +42,11 @@ const UserProfile = () => {
             <div className="profile-head">
               <div className="profile-infos">
                 <div className="profile-img">
-                  <img src={user.photoURL || maleImg} />
+                  <picture>
+                    <img src={user?.photoURL || ""} alt="" />
+                    <img src={maleImg} alt="" />
+                  </picture>
+                  {/* <img src={user.photoURL || maleImg} /> */}
                 </div>
                 <div className="profile-credentiels">
                   <span className="user-name">{user?.displayName}</span>

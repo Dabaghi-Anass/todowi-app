@@ -278,7 +278,7 @@ export default function RegisterHandler() {
                       onClick={signWithGoogle}
                     >
                       <GoogleSvg />
-                      sign up with google
+                      continue with google
                     </button>
                     <button
                       role="button"
@@ -286,7 +286,7 @@ export default function RegisterHandler() {
                       onClick={signWithGitHub}
                     >
                       <AppIcon name="GitHub" />
-                      sign up with github
+                      continue with github
                     </button>
                   </div>
                 </div>

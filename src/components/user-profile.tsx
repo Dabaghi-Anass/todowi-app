@@ -1,5 +1,5 @@
 import "../sass/_userprofile.scss";
-import maleImg from "../assets/pngs/male.jpg";
+import maleImg from "../assets/pngs/man.png";
 import AppIcon from "./app-icon";
 import { AppLink } from "./app-link";
 import { useEffect, useState } from "react";
@@ -31,10 +31,7 @@ const UserProfile = () => {
           setExpanded((p) => !expanded);
         }}
       >
-        <picture>
-          <img src={user?.photoURL || ""} alt="" />
-          <img src={maleImg} alt="" />
-        </picture>
+        <img src={user.photoURL || maleImg} />
       </div>
       {expanded && (
         <section className="profile">
@@ -42,11 +39,7 @@ const UserProfile = () => {
             <div className="profile-head">
               <div className="profile-infos">
                 <div className="profile-img">
-                  <picture>
-                    <img src={user?.photoURL || ""} alt="" />
-                    <img src={maleImg} alt="" />
-                  </picture>
-                  {/* <img src={user.photoURL || maleImg} /> */}
+                  <img src={user.photoURL || maleImg} />
                 </div>
                 <div className="profile-credentiels">
                   <span className="user-name">{user?.displayName}</span>

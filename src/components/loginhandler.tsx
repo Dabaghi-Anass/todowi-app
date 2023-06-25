@@ -195,7 +195,7 @@ function LoginHandler() {
                     onClick={signWithGoogle}
                   >
                     <GoogleSvg />
-                    sign in with google
+                    continue with google
                   </button>
                   <button
                     role="button"
@@ -203,7 +203,7 @@ function LoginHandler() {
                     onClick={signWithGitHub}
                   >
                     <AppIcon name="GitHub" />
-                    sign in with github
+                   continue with github
                   </button>
                 </div>
               </div>

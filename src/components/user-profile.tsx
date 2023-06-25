@@ -1,25 +1,17 @@
 import "../sass/_userprofile.scss";
-import maleImg from "../assets/pngs/male.png";
+import maleImg from "../assets/pngs/male.jpg";
 import AppIcon from "./app-icon";
 import { AppLink } from "./app-link";
 import { useEffect, useState } from "react";
 import { auth } from "../utilities/database/firebase";
 import { signOut, User } from "firebase/auth";
+import { currentUser } from "../utilities/http";
 const UserProfile = () => {
   const [expanded, setExpanded] = useState<boolean>(false);
   const [user, setUser] = useState<User | undefined>(undefined);
-  async function getUser(): Promise<User> {
-    return new Promise((resolve) => {
-      let id = setInterval(() => {
-        if (auth?.currentUser) {
-          resolve(auth?.currentUser);
-          clearInterval(id);
-        }
-      }, 10);
-    });
-  }
+
   async function setCurrentUser() {
-    let currentUserRef = await getUser();
+    let currentUserRef = await currentUser();
     setUser(currentUserRef);
   }
   useEffect(() => {
@@ -50,9 +42,7 @@ const UserProfile = () => {
                   <img src={user.photoURL || maleImg} />
                 </div>
                 <div className="profile-credentiels">
-                  <span className="user-name">
-                    {user?.displayName || "no user"}
-                  </span>
+                  <span className="user-name">{user?.displayName}</span>
                   <span className="user-email">{user?.email}</span>
                 </div>
               </div>

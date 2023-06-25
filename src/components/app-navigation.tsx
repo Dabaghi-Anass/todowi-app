@@ -6,21 +6,13 @@ import urls from "../utilities/urls.json";
 import { auth } from "../utilities/database/firebase";
 import { User } from "firebase/auth";
 import { useLayoutEffect, useState } from "react";
+import { currentUser } from "../utilities/http";
 export function AppNavBar() {
   const [user, setUser] = useState<User | null>(auth.currentUser);
-  async function getUser(): Promise<User> {
-    return new Promise((resolve) => {
-      let id = setInterval(() => {
-        if (auth?.currentUser) {
-          resolve(auth?.currentUser);
-          clearInterval(id);
-        }
-      }, 10);
-    });
-  }
+
   useLayoutEffect(() => {
     (async () => {
-      setUser(await getUser());
+      setUser(await currentUser());
     })();
     console.log(user);
   }, []);

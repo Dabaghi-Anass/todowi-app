@@ -1,19 +1,21 @@
 import { db, auth } from "./database/firebase";
-import { getDocs, collection } from "firebase/firestore";
+import { collection } from "firebase/firestore";
 import { User, updateProfile } from "firebase/auth";
+
 async function getCurrentUser(): Promise<User> {
   return new Promise((resolve) => {
     let id = setInterval(() => {
       if (auth?.currentUser) {
-        CURRENT_USER = auth?.currentUser;
         resolve(auth?.currentUser);
         clearInterval(id);
       }
     }, 10);
   });
 }
-var CURRENT_USER: User | null = null;
-getCurrentUser().then((data) => (CURRENT_USER = data));
+
+export async function currentUser() {
+  return await getCurrentUser();
+}
 const usersRef = collection(db, "users");
 
 interface Task {
@@ -32,7 +34,7 @@ interface Task {
 
 export async function saveTask(task: Task) {}
 
-export async function createUserDoc(
+export async function updateUser(
   user: User,
   {
     displayName,

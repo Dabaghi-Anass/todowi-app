@@ -1,14 +1,17 @@
-import AppIcon from "../components/app-icon";
+import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { Alert, InputAdornment, TextField } from "@mui/material";
-import { AppLink } from "../components/app-link";
-import GoogleSvg from "../components/googlesvg";
 import React, { useState } from "react";
 import { object as YupObject, string, ref } from "yup";
-import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { auth, googleProvider } from "../utilities/database/firebase";
-
+import AppIcon from "../components/app-icon";
+import { AppLink } from "../components/app-link";
+import {
+  auth,
+  googleProvider,
+  githubProvider,
+} from "../utilities/database/firebase";
+import GoogleSvg from "../components/googlesvg";
+import { updateUser } from "../utilities/http";
 import LoadingSpinner from "./loader";
-import { createUserDoc } from "../utilities/http";
 type Data = {
   userName: string;
   email: string;
@@ -102,7 +105,7 @@ export default function RegisterHandler() {
         email,
         password
       );
-      await createUserDoc(user, { displayName: userName, photoURL: "" });
+      await updateUser(user, { displayName: userName, photoURL: "" });
       setLoading(false);
       window.location.replace("/");
     } catch (e: any) {
@@ -117,10 +120,29 @@ export default function RegisterHandler() {
     const { repeatPassword, ...credentials } = data;
     registerNewUser(credentials);
   }
+  function getDisplayName(email: string | null): string {
+    if (!email) return "user";
+    let dotInd = email.indexOf(".");
+    let atInd = email.indexOf("@");
+    let name: string = email.slice(0, atInd);
+    if (dotInd < atInd) name = email.slice(0, dotInd);
+    return name;
+  }
   async function signWithGoogle(e: React.FormEvent) {
     e.preventDefault();
     try {
       await signInWithPopup(auth, googleProvider);
+      window.location.replace("/");
+    } catch (e: any) {
+      setFormError(e?.message);
+    }
+  }
+  async function signWithGitHub(e: React.FormEvent) {
+    e.preventDefault();
+    try {
+      const { user } = await signInWithPopup(auth, githubProvider);
+      const displayName = getDisplayName(user?.email);
+      await updateUser(user, { displayName, photoURL: user.photoURL });
       window.location.replace("/");
     } catch (e: any) {
       setFormError(e?.message);
@@ -258,7 +280,11 @@ export default function RegisterHandler() {
                       <GoogleSvg />
                       sign up with google
                     </button>
-                    <button role="button" className="special-btn">
+                    <button
+                      role="button"
+                      className="special-btn"
+                      onClick={signWithGitHub}
+                    >
                       <AppIcon name="GitHub" />
                       sign up with github
                     </button>

@@ -4,11 +4,9 @@ import RegisterHandler from "../components/registerhandler";
 
 export const AuthPage = () => {
   return (
-    <>
-      <Routes>
-        <Route path="login" element={<LoginHandler />} />
-        <Route path="register" element={<RegisterHandler />} />
-      </Routes>
-    </>
+    <Routes>
+      <Route path="login" element={<LoginHandler />} />
+      <Route path="register" element={<RegisterHandler />} />
+    </Routes>
   );
 };

@@ -18,18 +18,39 @@
   & .user-credentials {
     @include flex(center, start);
     gap: 1.5rem;
-    & img {
+    & .user-image {
       border-radius: 1.5rem;
-      border: 6px solid white;
-      width: 180px;
-      object-fit: cover;
-      aspect-ratio: 1;
       position: relative;
-      &::before {
-        content: "";
+      overflow: hidden;
+      &:hover {
+        & .overlap {
+          opacity: 1;
+          pointer-events: all;
+        }
+      }
+      & .overlap {
+        opacity: 0;
+        @include flex;
+        pointer-events: none;
+        transition: opacity 300ms;
         position: absolute;
+        z-index: 4;
+        background: linear-gradient(
+          180deg,
+          rgba(33, 33, 33, 0) 0%,
+          rgba(33, 33, 33, 0.22) 0.01%,
+          rgba(33, 33, 33, 0.62) 42.71%,
+          rgba(33, 33, 33, 0.8) 100%
+        );
         inset: 0;
-        background: black;
+      }
+      & img {
+        border-radius: 1.5rem;
+        border: 6px solid white;
+        width: 180px;
+        object-fit: cover;
+        aspect-ratio: 1;
+        z-index: 3;
       }
     }
     & .user-name-email {
@@ -170,4 +191,10 @@
       width: 100% !important;
     }
   }
+}
+.upload-image-btn {
+  background: none;
+  color: white;
+  border: none;
+  font-size: 2.5rem;
 }

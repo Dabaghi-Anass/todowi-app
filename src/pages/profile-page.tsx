@@ -297,7 +297,14 @@ export function Profile() {
         <AppNavBar />
         <section className="profile-content">
           <div className="user-credentials">
-            <img src={user?.photoURL || manImg} />
+            <div className="user-image">
+              <img src={user?.photoURL || manImg} />
+              <div className="overlap">
+                <button className="upload-image-btn">
+                  <AppIcon name="BackupTwoTone"/>
+                </button>
+              </div>
+            </div>
             <div className="user-name-email">
               <h1>
                 <span>{safeData?.displayName}</span>

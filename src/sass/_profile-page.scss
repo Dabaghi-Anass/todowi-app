@@ -24,6 +24,13 @@
       width: 180px;
       object-fit: cover;
       aspect-ratio: 1;
+      position: relative;
+      &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: black;
+      }
     }
     & .user-name-email {
       @include flex(start, start);
@@ -150,5 +157,17 @@
     color: rgb(255, 174, 0) !important;
     border-color: currentColor !important;
     background: transparent !important;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .profile-page {
+    font-size: 12px;
+  }
+  .actions {
+    flex-direction: column-reverse;
+    & .button {
+      width: 100% !important;
+    }
   }
 }

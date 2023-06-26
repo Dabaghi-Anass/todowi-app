@@ -19,7 +19,9 @@ export function AppNavBar() {
     <nav>
       <Logo />
       <div>
-        {!user && <AppLink id="login" />}
+        {!user && <AppLink button id="login" />}
+        {user && <AppLink id="tasks" />}
+
         <UserProfile />
       </div>
     </nav>

@@ -25,7 +25,7 @@ interface RegisterCredentials {
 }
 
 let schema = YupObject({
-  userName: string().required().min(2).label("name"),
+  userName: string().required().max(15).min(2).label("name"),
   email: string().email().required(),
   password: string().min(8).required(),
   repeatPassword: string()
@@ -158,7 +158,11 @@ export default function RegisterHandler() {
               TODOWI AUTH <br />
               <span>register</span>
             </h1>
-            {formError && <Alert severity="error">{formError}</Alert>}
+            {formError && (
+              <Alert severity="error">
+                {formError.replace("Firebase", "Todowi")}
+              </Alert>
+            )}
             <div className="form-group">
               <div className="form-item">
                 <TextField

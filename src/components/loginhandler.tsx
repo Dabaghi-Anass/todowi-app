@@ -128,7 +128,11 @@ function LoginHandler() {
             <span>login</span>
           </h1>
           <div className="form-group">
-            {formError && <Alert severity="error">{formError}</Alert>}
+            {formError && (
+              <Alert severity="error">
+                {formError.replace("Firebase", "Todowi")}
+              </Alert>
+            )}
             <div className="form-item">
               <TextField
                 id="filled-basic"
@@ -203,7 +207,7 @@ function LoginHandler() {
                     onClick={signWithGitHub}
                   >
                     <AppIcon name="GitHub" />
-                   continue with github
+                    continue with github
                   </button>
                 </div>
               </div>

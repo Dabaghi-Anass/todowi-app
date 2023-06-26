@@ -4,7 +4,7 @@
     "path": "/manager"
   },
   "profile": {
-    "label": "Edit Profile",
+    "label": "View Profile",
     "path": "/profile"
   },
   "/": {
@@ -21,6 +21,10 @@
   },
   "manager": {
     "label": "Get Started",
+    "path": "/manager"
+  },
+  "tasks": {
+    "label": "manager",
     "path": "/manager"
   }
 }

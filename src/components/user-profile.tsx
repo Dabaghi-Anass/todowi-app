@@ -1,5 +1,5 @@
 import "../sass/_userprofile.scss";
-import maleImg from "../assets/pngs/man.png";
+import maleImg from "../assets/pngs/man.jpg";
 import AppIcon from "./app-icon";
 import { AppLink } from "./app-link";
 import { useEffect, useState } from "react";

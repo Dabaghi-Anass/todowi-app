@@ -6,11 +6,14 @@ import { NotFound } from "./pages/not-found";
 import { TasksManager } from "./pages/task-manager";
 import { AuthPage } from "./pages/auth-page";
 import { Profile } from "./pages/profile-page";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
     <>
       <main>
+        <ToastContainer />
         <Routes>
           <Route index path="/" element={<HomePage />} />
           <Route path="/profile" element={<Profile />} />

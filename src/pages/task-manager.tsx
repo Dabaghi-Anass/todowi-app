@@ -8,6 +8,10 @@ import { nanoid } from "nanoid";
 import Context from "../components/context";
 import { Logo } from "../components/app-logo";
 import UserProfile from "../components/user-profile";
+import { currentUser } from "../utilities/http";
+import { useNavigate } from "react-router-dom";
+import { User } from "firebase/auth";
+import { auth } from "../utilities/database/firebase";
 
 interface Task {
   id: string;
@@ -22,7 +26,9 @@ interface Task {
 
 export const TasksManager = () => {
   const [grid, setGrid] = useState<boolean>(true);
+  const navigate = useNavigate();
   const [categories, setCategories] = useState<string[]>([]);
+  const [user, setUser] = useState<User | null>(auth?.currentUser);
   const [filterItems, setFilterItems] = useState<string[]>([]);
   const [isFilterPage, setIsFilterPage] = useState<number>(1);
   const [tasks, setTasks] = useState(data);
@@ -168,6 +174,19 @@ export const TasksManager = () => {
   useEffect(() => {
     setTasks((prev) => data);
   }, [data]);
+  async function isAuthenticated() {
+    const user = auth.currentUser;
+    if (!user) navigate("/auth/login");
+  }
+  useEffect(() => {
+    isAuthenticated();
+  }, [auth.currentUser]);
+  async function getUser() {
+    setUser(await currentUser());
+  }
+  useEffect(() => {
+    getUser();
+  }, []);
   const contextValue = {
     saveTask,
     deleteTask,

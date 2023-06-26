@@ -1,0 +1,154 @@
+@import "./_vars", "./_mixins";
+
+.profile-page {
+  --cyan: #44b3d5;
+  --teal: #53f1a5;
+  width: 100%;
+  background: no-repeat center getImage("profile-page-bg");
+  background-size: cover;
+  padding: 1rem;
+}
+.profile-content {
+  border-radius: 1.5rem;
+  padding: 2rem;
+  background: #263238;
+  opacity: 0.8;
+  color: white;
+  margin-top: 1rem;
+  & .user-credentials {
+    @include flex(center, start);
+    gap: 1.5rem;
+    & img {
+      border-radius: 1.5rem;
+      border: 6px solid white;
+      width: 180px;
+      object-fit: cover;
+      aspect-ratio: 1;
+    }
+    & .user-name-email {
+      @include flex(start, start);
+      gap: 0.5rem;
+      flex-direction: column;
+      & .user-email {
+        color: var(--teal);
+      }
+      & h1 {
+        @include flex;
+        text-transform: capitalize;
+        gap: 0.5rem;
+        & .button {
+          @include flex;
+          font-size: 1.8rem;
+          color: inherit;
+        }
+      }
+    }
+  }
+  & .guides {
+    margin-block: 2rem;
+    width: 100%;
+    & h3 {
+      text-transform: capitalize;
+    }
+    & p {
+      margin-block: 0.6rem;
+      font-size: 0.9em;
+      color: var(--cyan);
+      font-weight: bold;
+    }
+    & hr {
+      background: white;
+      margin-block: 2rem;
+    }
+  }
+}
+.credentials-edit {
+  & .safe-credentials {
+    & .intro {
+      & h1 {
+        text-transform: capitalize;
+      }
+      & p {
+        opacity: 0.7;
+      }
+    }
+  }
+}
+.btn-secondary {
+  background: #ebebeb !important;
+  color: #555 !important;
+  border-color: #555 !important;
+  &:hover {
+    background: #cacaca !important;
+  }
+}
+.security-icon {
+  color: rgb(255, 225, 0);
+  &.verified {
+    color: var(--cyan);
+  }
+}
+
+.form-group {
+  background: white;
+  padding: 1rem;
+  margin-block: 1.5rem;
+  @include flex(stretch, start);
+  flex-direction: column;
+  gap: 1rem;
+  & .actions {
+    & .button {
+      width: min(300px, 100%);
+    }
+    @include flex(center, flex-end);
+    gap: 1rem;
+  }
+}
+
+.button.disabled {
+  pointer-events: none;
+  user-select: none;
+  border-color: white !important;
+  position: relative !important;
+  z-index: 3;
+  overflow: hidden;
+  &::after {
+    content: "";
+    position: absolute !important;
+    inset: 0;
+    width: 100%;
+    background: #ffffff80;
+    z-index: 4;
+  }
+  &:hover {
+    background: $green;
+    color: white;
+  }
+}
+
+.password-auth {
+  @include flex;
+  padding: 1rem;
+  background: white;
+  flex-direction: column;
+  gap: 1rem;
+  & .input {
+    background: white;
+    width: 100%;
+  }
+  & .actions {
+    @include flex(center, flex-end);
+    gap: 1rem;
+    width: 100%;
+  }
+}
+
+.verifie {
+  background: rgb(255, 174, 0) !important;
+  border-color: transparent !important;
+  &:hover {
+    color: rgb(255, 174, 0) !important;
+    border-color: currentColor !important;
+    background: transparent !important;
+  }
+}

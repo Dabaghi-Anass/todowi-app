@@ -6,6 +6,10 @@ import {
   updatePassword,
   updateProfile,
   sendEmailVerification,
+  GoogleAuthProvider,
+  GithubAuthProvider,
+  signInWithPopup,
+  OAuthCredential,
 } from "firebase/auth";
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
@@ -24,7 +28,11 @@ import { currentUser } from "../utilities/http";
 import { AppNavBar } from "../components/app-navigation";
 import manImg from "../assets/pngs/man.jpg";
 import AppIcon from "../components/app-icon";
-import { auth } from "../utilities/database/firebase";
+import {
+  auth,
+  githubProvider,
+  googleProvider,
+} from "../utilities/database/firebase";
 import LoadingSpinner from "../components/loader";
 import Popup from "../components/app-popup";
 import { toast } from "react-toastify";
@@ -52,7 +60,7 @@ type SensitiveData = {
 export function Profile() {
   const navigate = useNavigate();
   const [user, setUser] = useState<User>();
-  const [loading, setLoading] = useState<boolean>();
+  const [loading, setLoading] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState<boolean>();
   const [formError, setFormError] = useState<string>("");
   const [sensitiveFormError, setSensitiveFormError] = useState<string>("");
@@ -186,7 +194,32 @@ export function Profile() {
       if (!(await validateForm())) return;
       const { email: newEmail, displayName } = safeData;
       let credentials = EmailAuthProvider.credential(user?.email, pass);
-      reauthenticateWithCredential(auth.currentUser, credentials)
+      if (user.providerData[0].providerId === "google.com") {
+        try {
+          const result = await signInWithPopup(auth, googleProvider);
+          const credential = GoogleAuthProvider.credentialFromResult(result);
+          if (credential?.accessToken) {
+            credentials = credential;
+          } else {
+            toast("error signing in with google", { type: "error" });
+          }
+        } catch (error: any) {
+          setFormError(error?.message);
+        }
+      } else if (user.providerData[0].providerId === "github.com") {
+        try {
+          const result = await signInWithPopup(auth, githubProvider);
+          const credential = GithubAuthProvider.credentialFromResult(result);
+          if (credential?.accessToken) {
+            credentials = credential;
+          } else {
+            toast("error signing in with github", { type: "error" });
+          }
+        } catch (error: any) {
+          setFormError(error?.message);
+        }
+      }
+      await reauthenticateWithCredential(auth.currentUser, credentials)
         .then(async () => {
           await updateProfile(auth?.currentUser || user, { displayName });
           await updateEmail(auth?.currentUser || user, newEmail);
@@ -224,10 +257,35 @@ export function Profile() {
       setLoading(true);
       if (!user?.email) return;
       if (!auth.currentUser) return;
-      const credentials = EmailAuthProvider.credential(
+      var credentials = EmailAuthProvider.credential(
         user?.email,
         sensitiveData.oldPassword
       );
+      if (user.providerData[0].providerId === "google.com") {
+        try {
+          const result = await signInWithPopup(auth, googleProvider);
+          const credential = GoogleAuthProvider.credentialFromResult(result);
+          if (credential?.accessToken) {
+            credentials = credential;
+          } else {
+            toast("error signing in with google", { type: "error" });
+          }
+        } catch (error: any) {
+          setFormError(error?.message);
+        }
+      } else if (user.providerData[0].providerId === "github.com") {
+        try {
+          const result = await signInWithPopup(auth, githubProvider);
+          const credential = GithubAuthProvider.credentialFromResult(result);
+          if (credential?.accessToken) {
+            credentials = credential;
+          } else {
+            toast("error signing in with github", { type: "error" });
+          }
+        } catch (error: any) {
+          setFormError(error?.message);
+        }
+      }
       setSensitiveFormError("");
       await reauthenticateWithCredential(auth.currentUser, credentials).then(
         async () => {
@@ -377,6 +435,12 @@ export function Profile() {
                 </span>
               </h1>
               <span className="user-email">{safeData?.email}</span>
+              <span>
+                created at :{" "}
+                <span className="user-createdAt">
+                  {user?.metadata.creationTime}
+                </span>
+              </span>
             </div>
           </div>
           <div className="guides">
@@ -458,7 +522,21 @@ export function Profile() {
                         ? "disabled"
                         : ""
                     }`}
-                    onClick={requestPassword}
+                    onClick={async (e) => {
+                      if (auth?.currentUser) {
+                        if (
+                          auth.currentUser.providerData[0].providerId ===
+                            "github.com" ||
+                          auth.currentUser.providerData[0].providerId ===
+                            "google.com"
+                        ) {
+                          e.preventDefault();
+                          return await submitSafeForm("");
+                        } else {
+                          return requestPassword(e);
+                        }
+                      }
+                    }}
                   >
                     Save
                   </button>

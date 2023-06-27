@@ -11,6 +11,7 @@ import { updateUser } from "../utilities/http";
 import { Alert, InputAdornment, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { string, object } from "yup";
+import LoadingSpinner from "./loader";
 let schema = object({
   email: string().email().required(),
   password: string().min(8).required(),
@@ -21,6 +22,7 @@ type Data = {
 };
 function LoginHandler() {
   const [formError, setFormError] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState(false);
   const [data, setData] = useState<Data>({
     email: "",
@@ -69,12 +71,14 @@ function LoginHandler() {
   }
   async function signUser() {
     try {
+      setLoading(true);
       const { user } = await signInWithEmailAndPassword(
         auth,
         data.email,
         data.password
       );
       location.replace("/");
+      setLoading(false);
     } catch (e: any) {
       setFormError(e?.message);
     }
@@ -121,6 +125,7 @@ function LoginHandler() {
   }
   return (
     <main className="auth-page">
+      {loading && <LoadingSpinner />}
       <div className="form-container">
         <form className="form">
           <h1>

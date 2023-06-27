@@ -8,6 +8,7 @@ import { AuthPage } from "./pages/auth-page";
 import { Profile } from "./pages/profile-page";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { currentUser } from "./utilities/http";
 
 function App() {
   return (

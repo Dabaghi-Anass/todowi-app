@@ -12,6 +12,13 @@ import { useNavigate } from "react-router-dom";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import Alert from "@mui/material/Alert";
+import {
+  getStorage,
+  ref as storageRef,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage";
 import { object, string, ref } from "yup";
 import { currentUser } from "../utilities/http";
 import { AppNavBar } from "../components/app-navigation";
@@ -23,7 +30,7 @@ import Popup from "../components/app-popup";
 import { toast } from "react-toastify";
 const safeSchema = object({
   email: string().required().email(),
-  displayName: string().required().min(2).max(15).label("user name"),
+  displayName: string().required().min(2).max(30).label("user name"),
 });
 const sensitiveSchema = object({
   oldPassword: string().required(),
@@ -146,6 +153,7 @@ export function Profile() {
   async function setCurrentUser() {
     let userCopy = await currentUser();
     setUser(userCopy);
+    if (!userCopy) navigate("/auth/login");
     setSafeData({
       displayName: userCopy?.displayName || "",
       email: userCopy?.email || "",
@@ -182,9 +190,11 @@ export function Profile() {
         .then(async () => {
           await updateProfile(auth?.currentUser || user, { displayName });
           await updateEmail(auth?.currentUser || user, newEmail);
+          toast("email and name updated successfuly", { type: "success" });
           setPassword("");
         })
         .catch((e: any) => {
+          toast("error updating email and name ", { type: "error" });
           setFormError(e.message);
         });
       setLoading(false);
@@ -223,11 +233,13 @@ export function Profile() {
         async () => {
           if (!auth.currentUser) return;
           await updatePassword(auth.currentUser, sensitiveData.newPassword);
+          toast("password changed successfuly", { type: "success" });
           setLoading(false);
         }
       );
     } catch (e: any) {
       setSensitiveFormError(e.message);
+      toast("Error changing password", { type: "error" });
       setLoading(false);
     }
   }
@@ -239,13 +251,56 @@ export function Profile() {
       type: "success",
     });
   }
-  async function isAuthenticated() {
-    const user = auth.currentUser;
-    if (!user) navigate("/auth/login");
+  async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    try {
+      const file = e.target?.files?.[0];
+      if (file) {
+        setLoading(true);
+        const storage = getStorage();
+        const oldImageUrl = user?.photoURL;
+        const stRef = storageRef(storage, "images/" + file.name);
+        await uploadBytes(stRef, file)
+          .then(async () => {
+            await getDownloadURL(stRef).then(async (downloadURL) => {
+              if (!auth?.currentUser) return;
+              if (!user) return;
+              let userCopy = { ...user };
+              userCopy.photoURL = downloadURL;
+              setUser(userCopy);
+              await updateProfile(auth.currentUser || user, {
+                photoURL: downloadURL,
+              })
+                .then(() => {
+                  toast("image updated succefully", { type: "success" });
+                  setLoading(false);
+                })
+                .then(async () => {
+                  if (oldImageUrl) {
+                    try {
+                      let strgRef = storageRef(storage, oldImageUrl);
+                      await deleteObject(strgRef);
+                    } catch (error) {
+                      toast("Error deleting old image:", { type: "error" });
+                    }
+                  }
+                })
+                .catch((e) => {
+                  toast("Error uploading image:", {
+                    type: "error",
+                  });
+                  setLoading(false);
+                });
+            });
+          })
+          .catch((error) => {
+            toast("Error uploading image:", {
+              type: "error",
+            });
+          });
+      }
+    } catch (e: any) {}
+    setLoading(false);
   }
-  useEffect(() => {
-    isAuthenticated();
-  }, [auth.currentUser]);
   useEffect(() => {
     setCurrentUser();
   }, []);
@@ -300,9 +355,10 @@ export function Profile() {
             <div className="user-image">
               <img src={user?.photoURL || manImg} />
               <div className="overlap">
-                <button className="upload-image-btn">
-                  <AppIcon name="BackupTwoTone"/>
-                </button>
+                <input type="file" id="image" onChange={handleImageUpload} />
+                <label htmlFor="image" className="upload-image-btn">
+                  <AppIcon name="BackupTwoTone" />
+                </label>
               </div>
             </div>
             <div className="user-name-email">

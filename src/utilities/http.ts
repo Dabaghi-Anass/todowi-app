@@ -16,6 +16,7 @@ async function getCurrentUser(): Promise<User> {
 export async function currentUser() {
   return await getCurrentUser();
 }
+currentUser();
 const usersRef = collection(db, "users");
 
 interface Task {

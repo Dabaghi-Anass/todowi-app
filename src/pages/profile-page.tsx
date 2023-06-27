@@ -201,7 +201,10 @@ export function Profile() {
           if (credential?.accessToken) {
             credentials = credential;
           } else {
-            toast("error signing in with google", { type: "error" });
+            toast("error signing in with google", {
+              type: "error",
+              draggable: true,
+            });
           }
         } catch (error: any) {
           setFormError(error?.message);
@@ -213,7 +216,10 @@ export function Profile() {
           if (credential?.accessToken) {
             credentials = credential;
           } else {
-            toast("error signing in with github", { type: "error" });
+            toast("error signing in with github", {
+              type: "error",
+              draggable: true,
+            });
           }
         } catch (error: any) {
           setFormError(error?.message);
@@ -223,11 +229,17 @@ export function Profile() {
         .then(async () => {
           await updateProfile(auth?.currentUser || user, { displayName });
           await updateEmail(auth?.currentUser || user, newEmail);
-          toast("email and name updated successfuly", { type: "success" });
+          toast("email and name updated successfuly", {
+            type: "success",
+            draggable: true,
+          });
           setPassword("");
         })
         .catch((e: any) => {
-          toast("error updating email and name ", { type: "error" });
+          toast("error updating email and name ", {
+            type: "error",
+            draggable: true,
+          });
           setFormError(e.message);
         });
       setLoading(false);
@@ -268,7 +280,10 @@ export function Profile() {
           if (credential?.accessToken) {
             credentials = credential;
           } else {
-            toast("error signing in with google", { type: "error" });
+            toast("error signing in with google", {
+              type: "error",
+              draggable: true,
+            });
           }
         } catch (error: any) {
           setFormError(error?.message);
@@ -280,7 +295,10 @@ export function Profile() {
           if (credential?.accessToken) {
             credentials = credential;
           } else {
-            toast("error signing in with github", { type: "error" });
+            toast("error signing in with github", {
+              type: "error",
+              draggable: true,
+            });
           }
         } catch (error: any) {
           setFormError(error?.message);
@@ -291,13 +309,16 @@ export function Profile() {
         async () => {
           if (!auth.currentUser) return;
           await updatePassword(auth.currentUser, sensitiveData.newPassword);
-          toast("password changed successfuly", { type: "success" });
+          toast("password changed successfuly", {
+            type: "success",
+            draggable: true,
+          });
           setLoading(false);
         }
       );
     } catch (e: any) {
       setSensitiveFormError(e.message);
-      toast("Error changing password", { type: "error" });
+      toast("Error changing password", { type: "error", draggable: true });
       setLoading(false);
     }
   }
@@ -307,6 +328,7 @@ export function Profile() {
     await sendEmailVerification(user);
     toast("a verification email link sent to your email", {
       type: "success",
+      draggable: true,
     });
   }
   async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -329,7 +351,10 @@ export function Profile() {
                 photoURL: downloadURL,
               })
                 .then(() => {
-                  toast("image updated succefully", { type: "success" });
+                  toast("image updated succefully", {
+                    type: "success",
+                    draggable: true,
+                  });
                   setLoading(false);
                 })
                 .then(async () => {
@@ -338,13 +363,17 @@ export function Profile() {
                       let strgRef = storageRef(storage, oldImageUrl);
                       await deleteObject(strgRef);
                     } catch (error) {
-                      toast("Error deleting old image:", { type: "error" });
+                      toast("Error deleting old image:", {
+                        type: "error",
+                        draggable: true,
+                      });
                     }
                   }
                 })
                 .catch((e) => {
                   toast("Error uploading image:", {
                     type: "error",
+                    draggable: true,
                   });
                   setLoading(false);
                 });
@@ -352,7 +381,7 @@ export function Profile() {
           })
           .catch((error) => {
             toast("Error uploading image:", {
-              type: "error",
+              type: "error",draggable: true
             });
           });
       }

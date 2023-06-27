@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import headerImage from "../assets/svgs/header.svg";
 import listImage from "../assets/svgs/tasklist.svg";
 import { AppLink } from "../components/app-link";

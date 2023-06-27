@@ -120,12 +120,13 @@ function LoginHandler() {
   async function resetPassword(email: string) {
     try {
       await sendPasswordResetEmail(auth, email);
-      toast("Password reset email sent!", { type: "success" });
+      toast("Password reset email sent!", { type: "success", draggable: true });
       setEmail("");
       setModalOpen(false);
     } catch (error) {
       toast("Error sending password reset email try again later", {
         type: "error",
+        draggable: true,
       });
       setModalOpen(false);
     }

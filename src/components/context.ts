@@ -1,19 +1,28 @@
 import { createContext } from "react";
-import data from "./data";
+import { getDocs, collection } from "firebase/firestore";
+import { db } from "../utilities/database/firebase";
+import { currentUser } from "../utilities/http";
+import { Task } from "../utilities/type_task";
+import { toast } from "react-toastify";
 
-interface Task {
-  id: string;
-  content: string;
-  background: string;
-  size: number;
-  category: string;
-  creationDate: Date;
-  isPinned: boolean;
-  isHidden: boolean;
-  [key: string]: any;
+export async function fetchTasks() {
+  try {
+    const user = await currentUser();
+    if (!user) return [];
+    const tasksRef = collection(db, "tasks");
+    const querySnapshot = await getDocs(tasksRef);
+    let docs: Task[] = [];
+    querySnapshot.forEach((doc) => {
+      let tsk = doc.data();
+      tsk.tid = doc.id;
+      docs.push(tsk as Task);
+    });
+    return docs.filter((t) => t.id === user.uid);
+  } catch (error) {
+    toast("Error fetching tasks:", { type: "error", draggable: true });
+    return [];
+  }
 }
-
-var tasks: Task[] = [...data];
 function saveTask(task: Task) {}
 function deleteTask(id: string) {}
 function handleSelectCategory(key: string) {}
@@ -25,5 +34,5 @@ export default createContext({
   handleEditCategory,
   handleDeleteCategory,
   handleSelectCategory,
-  tasks,
+  tasks: [] as Task[],
 });

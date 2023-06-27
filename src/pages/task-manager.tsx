@@ -1,38 +1,36 @@
 import SearchAndFilterSection from "../components/search-and-filter-section";
 import TaskBodySection from "../components/task-body-section";
 import SideNav from "../components/side-nav";
-import data from "../components/data.js";
 import React, { useEffect, useRef, useState } from "react";
 import ScrollToTop from "../components/scrollToTop";
-import { nanoid } from "nanoid";
-import Context from "../components/context";
+import Context, { fetchTasks } from "../components/context";
 import { Logo } from "../components/app-logo";
 import UserProfile from "../components/user-profile";
-import { currentUser } from "../utilities/http";
+import {
+  currentUser,
+  deleteTaskFromDB,
+  saveTasksToServer,
+} from "../utilities/http";
 import { useNavigate } from "react-router-dom";
 import { User } from "firebase/auth";
-import { auth } from "../utilities/database/firebase";
-
-interface Task {
-  id: string;
-  content: string;
-  background: string;
-  size: number;
-  category: string;
-  creationDate: Date;
-  isPinned: boolean;
-  isHidden: boolean;
-}
+import { auth, db } from "../utilities/database/firebase";
+import LoadingSpinner from "../components/loader";
+import { Alert } from "@mui/material";
+import { Task } from "../utilities/type_task";
+import { nanoid } from "nanoid";
+import { addDoc, collection, updateDoc } from "firebase/firestore";
 
 export const TasksManager = () => {
-  const [grid, setGrid] = useState<boolean>(true);
   const navigate = useNavigate();
+  const [grid, setGrid] = useState<boolean>(true);
   const [categories, setCategories] = useState<string[]>([]);
   const [user, setUser] = useState<User | null>(auth?.currentUser);
   const [filterItems, setFilterItems] = useState<string[]>([]);
   const [isFilterPage, setIsFilterPage] = useState<number>(1);
-  const [tasks, setTasks] = useState(data);
-  const tasksBackup = useRef<Task[]>(data);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [editedTasks, setEditedTasks] = useState<string[]>([]);
+  const tasksBackup = useRef<Task[]>([]);
 
   function switchDisplayMode(displayMode: string) {
     if (displayMode === "grid") return setGrid(true);
@@ -41,18 +39,26 @@ export const TasksManager = () => {
   function deleteTask(id: string) {
     let tasksCopy = [...tasksBackup.current];
     let stateTasksCopy = [...tasks];
-    tasksCopy = tasksCopy.filter((e) => e.id !== id);
-    stateTasksCopy = stateTasksCopy.filter((e) => e.id !== id);
+    tasksCopy = tasksCopy.filter((e) => e.tid !== id);
+    stateTasksCopy = stateTasksCopy.filter((e) => e.tid !== id);
     setTasks((prev) => stateTasksCopy);
+    setEditedTasks((prev) => prev.filter((t) => t !== id));
     tasksBackup.current = [...tasksCopy];
   }
   function saveTask(task: Task) {
     let tasksCopy = [...tasksBackup.current];
-    let element = tasksCopy.find((e) => e.id === task.id);
+    let element = tasksCopy.find((e) => e.tid === task.tid);
     if (!element) return;
     let index = tasksCopy.indexOf(element);
     tasksCopy[index] = { ...task };
     tasksBackup.current = [...tasksCopy];
+    setEditedTasks((prev) => {
+      if (prev.includes(task.tid)) {
+        return prev;
+      } else {
+        return [...prev, task.tid];
+      }
+    });
     setTasks((prev) => tasksCopy);
   }
 
@@ -71,25 +77,30 @@ export const TasksManager = () => {
     }
     setTasks((prev) => matchingTasks);
   }
-  function handleCreateTodo() {
-    let id = nanoid();
+  async function handleCreateTodo() {
+    if (!user) return;
+    let id = user.uid;
+    let tasksReference = collection(db, "tasks");
+    let uniqueId = nanoid();
     const newTask = {
-      id: id,
+      id,
+      tid: uniqueId,
       content: "new task",
-      background: "rgb(232, 232, 125)",
+      background: "#728cfe",
       size: "new task".length,
       category: "Category",
-      creationDate: new Date(),
+      creationDate: Date.now(),
       isPinned: false,
       isHidden: false,
     };
+    let doc = await addDoc(tasksReference, newTask);
+    newTask.tid = doc.id;
+    await updateDoc(doc, newTask);
+    saveTask(newTask);
     setTasks((prev) => [...tasks, newTask]);
+    setEditedTasks((p) => [...p, newTask.tid]);
     tasksBackup.current = [...tasksBackup.current, newTask];
     document.documentElement.scrollTop = document.documentElement.scrollHeight;
-  }
-  function getDateDifferenceInMilliseconds(date1: Date, date2: Date) {
-    const timeDiff = date2.getTime() - date1.getTime();
-    return timeDiff;
   }
 
   function handleFilter(key: string) {
@@ -118,9 +129,7 @@ export const TasksManager = () => {
         tasksCopy = tasksCopy.filter((e) => e.isPinned);
         break;
       case "creation date":
-        tasksCopy = tasksCopy.sort((a, b) =>
-          getDateDifferenceInMilliseconds(a.creationDate, b.creationDate)
-        );
+        tasksCopy = tasksCopy.sort((a, b) => a.creationDate - b.creationDate);
         break;
     }
     setTasks((prev) => tasksCopy);
@@ -171,22 +180,28 @@ export const TasksManager = () => {
     setCategories((prev) => categoriesStrings);
     setFilterItems((prev) => filterItemsStrings);
   }, [tasks]);
-  useEffect(() => {
-    setTasks((prev) => data);
-  }, [data]);
-  async function isAuthenticated() {
-    const user = auth.currentUser;
-    if (!user) navigate("/auth/login");
+  async function setUserTasks() {
+    setLoading(true);
+    const tasksCopy = await fetchTasks();
+    setTasks((prev) => tasksCopy);
+    tasksBackup.current = tasksCopy;
+    setLoading(false);
   }
+  async function isAuthenticated() {
+    const user = await currentUser();
+    if (!user) navigate("/auth/login");
+    else setUser(user);
+  }
+  async function handleSaveTasks() {
+    let fullfilled = await saveTasksToServer(tasksBackup.current, editedTasks);
+    if (fullfilled) setEditedTasks([]);
+  }
+  useEffect(() => {
+    setUserTasks();
+  }, [user]);
   useEffect(() => {
     isAuthenticated();
   }, [auth.currentUser]);
-  async function getUser() {
-    setUser(await currentUser());
-  }
-  useEffect(() => {
-    getUser();
-  }, []);
   const contextValue = {
     saveTask,
     deleteTask,
@@ -196,58 +211,81 @@ export const TasksManager = () => {
     tasks,
   };
   return (
-    <main className="tasks-page">
-      <ScrollToTop />
-      <Context.Provider value={contextValue}>
-        <SideNav
-          categories={categories}
-          filterItems={filterItems}
-          onFilter={handleFilter}
-        />
-      </Context.Provider>
-      <section className="todos-container">
-        <section className="task-head-section">
-          <span></span>
-          <h1>
-            <Logo />
-            <span className="sub">tasks</span>
-          </h1>
-          <UserProfile />
-        </section>
-        <SearchAndFilterSection
-          onAddTodo={handleCreateTodo}
-          onFilter={switchDisplayMode}
-          onSearch={handleSearch}
-        />
+    <>
+      {loading && <LoadingSpinner />}
+      <main className="tasks-page">
+        <ScrollToTop />
         <Context.Provider value={contextValue}>
-          <TaskBodySection
-            data={
-              isFilterPage === 0
-                ? tasks
-                    .filter((e) => e.isHidden)
-                    .sort((a, b) => {
-                      if (a.isPinned && !b.isPinned) return -1;
-                      else if (!a.isPinned && b.isPinned) return 1;
-                      else return 0;
-                    })
-                : isFilterPage === 1
-                ? tasks
-                    .filter((e) => !e.isHidden)
-                    .sort((a, b) => {
-                      if (a.isPinned && !b.isPinned) return -1;
-                      else if (!a.isPinned && b.isPinned) return 1;
-                      else return 0;
-                    })
-                : tasks.sort((a, b) => {
-                    if (a.isPinned && !b.isPinned) return -1;
-                    else if (!a.isPinned && b.isPinned) return 1;
-                    else return 0;
-                  })
-            }
-            grid={grid}
+          <SideNav
+            categories={categories}
+            filterItems={filterItems}
+            onFilter={handleFilter}
           />
         </Context.Provider>
-      </section>
-    </main>
+        <section className="todos-container">
+          <section className="task-head-section">
+            <span></span>
+            <h1>
+              <Logo />
+              <span className="sub">tasks</span>
+            </h1>
+            <UserProfile />
+          </section>
+          <SearchAndFilterSection
+            onAddTodo={handleCreateTodo}
+            onFilter={switchDisplayMode}
+            onSearch={handleSearch}
+          />
+          <Context.Provider value={contextValue}>
+            {editedTasks.length > 0 ? (
+              <div className="save-actions">
+                <Alert className="alert" severity="warning">
+                  warning : you must save you tasks
+                </Alert>
+                <div className="actions">
+                  <button
+                    className="link button btn-secondary"
+                    onClick={() => setEditedTasks([])}
+                  >
+                    cancel
+                  </button>
+                  <button className="link button" onClick={handleSaveTasks}>
+                    save
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <></>
+            )}
+            <TaskBodySection
+              data={
+                isFilterPage === 0
+                  ? tasks
+                      .filter((e) => e.isHidden)
+                      .sort((a, b) => {
+                        if (a.isPinned && !b.isPinned) return -1;
+                        else if (!a.isPinned && b.isPinned) return 1;
+                        else return 0;
+                      })
+                  : isFilterPage === 1
+                  ? tasks
+                      .filter((e) => !e.isHidden)
+                      .sort((a, b) => {
+                        if (a.isPinned && !b.isPinned) return -1;
+                        else if (!a.isPinned && b.isPinned) return 1;
+                        else return 0;
+                      })
+                  : tasks.sort((a, b) => {
+                      if (a.isPinned && !b.isPinned) return -1;
+                      else if (!a.isPinned && b.isPinned) return 1;
+                      else return 0;
+                    })
+              }
+              grid={grid}
+            />
+          </Context.Provider>
+        </section>
+      </main>
+    </>
   );
 };

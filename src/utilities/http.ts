@@ -1,6 +1,14 @@
-import { db, auth } from "./database/firebase";
-import { collection } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
+import { auth, db } from "./database/firebase";
 import { User, updateProfile } from "firebase/auth";
+import { toast } from "react-toastify";
+import { Item, Task } from "./type_task";
 
 async function getCurrentUser(): Promise<User> {
   return new Promise((resolve) => {
@@ -16,23 +24,8 @@ async function getCurrentUser(): Promise<User> {
 export async function currentUser() {
   return await getCurrentUser();
 }
-currentUser();
-const usersRef = collection(db, "users");
 
-interface Task {
-  id: string;
-  title: string;
-  content: string;
-  background: string;
-  size: number;
-  category: string;
-  creationDate: Date;
-  expirationDate: Date;
-  isPinned: boolean;
-  isHidden: boolean;
-  [key: string]: any;
-}
-
+let tasksRef = collection(db, "tasks");
 export async function saveTask(task: Task) {}
 
 export async function updateUser(
@@ -53,7 +46,36 @@ export async function updateUser(
 
 export async function updateTask(task: Task) {}
 export async function getTask(id: string) {}
-export async function deleteTask(id: string) {}
+export async function deleteTaskFromDB(id: string) {
+  try {
+    const taskRef = doc(db, "tasks", id);
+    await deleteDoc(taskRef);
+    toast("task deleted succefully", {
+      type: "info",
+      draggable: true,
+    });
+  } catch (error) {
+    toast("Error deleting task:", { type: "error", draggable: true });
+  }
+}
 export async function deleteCategory(category: string) {}
 export async function editCategory(category: string) {}
-export async function getTasks() {}
+export async function saveTasksToServer(tasks: Task[], editedItems: string[]) {
+  try {
+    for (let item of editedItems) {
+      let task = tasks.find((e) => e.tid === item);
+      if (task) {
+        const taskRef = doc(tasksRef, task.tid);
+        await updateDoc(taskRef, task);
+      }
+    }
+    toast("Tasks saved successfully.", { type: "success", draggable: true });
+    return true;
+  } catch (error) {
+    toast("Error saving tasks try again later", {
+      type: "error",
+      draggable: true,
+    });
+    return false;
+  }
+}

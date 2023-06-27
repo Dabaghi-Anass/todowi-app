@@ -9,7 +9,7 @@ export const AuthPage = () => {
   const navigate = useNavigate();
   async function isAuthenticated() {
     const user = await currentUser();
-    if (user) navigate("/profile");
+    if (user) navigate("/manager");
   }
   useEffect(() => {
     isAuthenticated();

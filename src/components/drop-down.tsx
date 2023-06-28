@@ -100,7 +100,7 @@ const DropDown = ({ type, data, onFilter, onDelete }: DropDownProps) => {
                 key={category}
                 onClick={() => (onFilter ? onFilter(category) : null)}
               >
-                <span className="filter-name">{category}</span>
+                <span className="filter-name" style={{ cursor: "pointer" }}>{category}</span>
               </div>
             ))}
           </>

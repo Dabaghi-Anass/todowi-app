@@ -82,3 +82,19 @@ body {
     opacity: 0.7;
   }
 }
+
+.palasteine {
+  background: rgb(0, 51, 102);
+  position: relative;
+  @include flex;
+  gap: 1rem;
+  z-index: 100;
+  font-weight: bold;
+  font-size: 1.2rem;
+  padding: 0.7rem 1rem;
+  color: white;
+  text-align: center;
+  & img {
+    width: 2rem;
+  }
+}

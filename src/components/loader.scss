@@ -1,10 +1,10 @@
 @import "../sass/_vars", "../sass/_mixins";
 
 .app-loader-container {
-  background: rgb(1, 4, 47);
+  background: $green;
   @include flex;
   height: 100vh;
-  color: $green;
+  color: white;
   font-family: $font-sec;
   font-size: 4rem;
   letter-spacing: 0.3rem;

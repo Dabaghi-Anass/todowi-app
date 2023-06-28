@@ -6,8 +6,14 @@ interface Props {
   categories: string[];
   filterItems: string[];
   onFilter: (key: string) => void;
+  onDeleteCategory: (key: string) => void;
 }
-export default function SideNav({ categories, filterItems, onFilter }: Props) {
+export default function SideNav({
+  categories,
+  filterItems,
+  onDeleteCategory,
+  onFilter,
+}: Props) {
   const [navClosed, setNavClosed] = useState(true);
   const toggleSideNav = () => {
     setNavClosed((prev) => !prev);
@@ -28,7 +34,13 @@ export default function SideNav({ categories, filterItems, onFilter }: Props) {
             onClick={() => setNavClosed(false)}
           />
         )}
-        {!navClosed && <DropDown type="Categories" data={categories} />}
+        {!navClosed && (
+          <DropDown
+            type="Categories"
+            data={categories}
+            onDelete={onDeleteCategory}
+          />
+        )}
       </div>
       <div className="side-nav-item filter-section">
         {navClosed && (

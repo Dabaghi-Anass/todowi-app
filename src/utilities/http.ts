@@ -1,14 +1,16 @@
 import {
-  addDoc,
   collection,
   deleteDoc,
   doc,
+  getDocs,
+  query,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import { auth, db } from "./database/firebase";
 import { User, updateProfile } from "firebase/auth";
 import { toast } from "react-toastify";
-import { Item, Task } from "./type_task";
+import { Task } from "./type_task";
 
 async function getCurrentUser(): Promise<User> {
   return new Promise((resolve) => {
@@ -58,7 +60,27 @@ export async function deleteTaskFromDB(id: string) {
     toast("Error deleting task:", { type: "error", draggable: true });
   }
 }
-export async function deleteCategory(category: string) {}
+export async function deleteCategory(category: string) {
+  try {
+    const q = query(
+      tasksRef,
+      where("category", "==", category.trim().toLowerCase())
+    );
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach(async (doc) => {
+      await deleteDoc(doc.ref);
+    });
+    toast(`${category} category deleted successfully`, {
+      type: "success",
+      draggable: true,
+    });
+  } catch (error) {
+    toast(`Error deleting ${category} category try again later`, {
+      type: "error",
+      draggable: true,
+    });
+  }
+}
 export async function editCategory(category: string) {}
 export async function saveTasksToServer(tasks: Task[], editedItems: string[]) {
   try {

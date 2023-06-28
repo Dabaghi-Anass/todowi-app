@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { getDocs, collection } from "firebase/firestore";
+import { getDocs, collection, query, where } from "firebase/firestore";
 import { db } from "../utilities/database/firebase";
 import { currentUser } from "../utilities/http";
 import { Task } from "../utilities/type_task";
@@ -10,7 +10,8 @@ export async function fetchTasks() {
     const user = await currentUser();
     if (!user) return [];
     const tasksRef = collection(db, "tasks");
-    const querySnapshot = await getDocs(tasksRef);
+    const q = query(tasksRef, where("id", "==", user.uid));
+    const querySnapshot = await getDocs(q);
     let docs: Task[] = [];
     querySnapshot.forEach((doc) => {
       let tsk = doc.data();

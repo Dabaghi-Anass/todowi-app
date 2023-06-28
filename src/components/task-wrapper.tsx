@@ -20,7 +20,7 @@ export default function TaskWrapper({
   const { saveTask } = useContext(Context);
   const updateHeader = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newItem = { ...item };
-    newItem.category = e.target.value;
+    newItem.category = e.target.value.toLowerCase();
     saveTask(newItem);
   };
   function handleEditTaskContent(e: React.ChangeEvent<HTMLTextAreaElement>) {

@@ -5,11 +5,11 @@ interface DropDownProps {
   type: string;
   data: string[];
   onFilter?: (key: string) => void;
+  onDelete?: (key: string) => void;
 }
-const DropDown = ({ type, data, onFilter }: DropDownProps) => {
+const DropDown = ({ type, data, onFilter, onDelete }: DropDownProps) => {
   const [editItem, setEditItem] = useState("");
-  const { handleEditCategory, handleDeleteCategory, handleSelectCategory } =
-    useContext(Context);
+  const { handleEditCategory, handleSelectCategory } = useContext(Context);
 
   const [menuOpened, setMenuOpened] = useState(true);
   const openDropDown = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -87,7 +87,7 @@ const DropDown = ({ type, data, onFilter }: DropDownProps) => {
                   )}
                   <AppIcon
                     name="Delete"
-                    onClick={() => handleDeleteCategory(category)}
+                    onClick={() => onDelete && onDelete(category)}
                   />
                 </div>
               </div>

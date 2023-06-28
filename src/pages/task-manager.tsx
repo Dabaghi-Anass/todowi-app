@@ -6,26 +6,26 @@ import ScrollToTop from "../components/scrollToTop";
 import Context, { fetchTasks } from "../components/context";
 import { Logo } from "../components/app-logo";
 import UserProfile from "../components/user-profile";
-import {
-  currentUser,
-  deleteTaskFromDB,
-  saveTasksToServer,
-} from "../utilities/http";
+import { deleteCategory, saveTasksToServer } from "../utilities/http";
 import { useNavigate } from "react-router-dom";
 import { User } from "firebase/auth";
 import { auth, db } from "../utilities/database/firebase";
 import LoadingSpinner from "../components/loader";
-import { Alert } from "@mui/material";
-import { Task } from "../utilities/type_task";
+import { Alert, TextField } from "@mui/material";
+import { Settings, Task } from "../utilities/type_task";
 import { nanoid } from "nanoid";
-import { addDoc, collection, updateDoc } from "firebase/firestore";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
+import Popup from "../components/app-popup";
+import { toast } from "react-toastify";
 
 export const TasksManager = () => {
   const navigate = useNavigate();
   const [grid, setGrid] = useState<boolean>(true);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [categories, setCategories] = useState<string[]>([]);
   const [user, setUser] = useState<User | null>(auth?.currentUser);
   const [filterItems, setFilterItems] = useState<string[]>([]);
+  const [category, setCategory] = useState<string>();
   const [isFilterPage, setIsFilterPage] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -33,8 +33,8 @@ export const TasksManager = () => {
   const tasksBackup = useRef<Task[]>([]);
 
   function switchDisplayMode(displayMode: string) {
-    if (displayMode === "grid") return setGrid(true);
-    setGrid(false);
+    if (displayMode === "grid") setGrid(true);
+    else setGrid(false);
   }
   function deleteTask(id: string) {
     let tasksCopy = [...tasksBackup.current];
@@ -134,25 +134,39 @@ export const TasksManager = () => {
     }
     setTasks((prev) => tasksCopy);
   }
-  function handleEditCategory(key: string, newCategory: string) {
-    console.log(key, newCategory);
-    let tasksCopy = [...tasksBackup.current];
-    tasksCopy = tasksCopy.map((e) => {
-      if (e.category.trim().toLocaleLowerCase() === key)
-        e.category = newCategory;
-      return e;
-    });
-    tasksBackup.current = [...tasksCopy];
-    setTasks((prev) => tasksCopy);
+  async function handleEditCategory(key: string, newCategory: string) {
+    try {
+      let tasksCopy = [...tasksBackup.current];
+      tasksCopy = tasksCopy.map((e) => {
+        if (e.category.trim().toLocaleLowerCase() === key.toLowerCase()) {
+          e.category = newCategory;
+          const docRef = doc(db, "tasks", e.tid);
+          updateDoc(docRef, { category: newCategory });
+        }
+        return e;
+      });
+      tasksBackup.current = [...tasksCopy];
+      setTasks((prev) => [...tasksCopy]);
+      toast("category updated successfully", {
+        type: "success",
+        draggable: true,
+      });
+    } catch (e) {
+      toast("error updating category.", { type: "error", draggable: true });
+    }
   }
-  function handleDeleteCategory(key: string) {
+  async function handleDeleteCategory() {
     let tasksCopy = [...tasksBackup.current];
+    if (!category) return setModalOpen(false);
     tasksCopy = tasksCopy.filter(
       (e) =>
-        e.category.trim().toLocaleLowerCase() !== key.trim().toLocaleLowerCase()
+        e.category.trim().toLocaleLowerCase() !==
+        category.trim().toLocaleLowerCase()
     );
     tasksBackup.current = [...tasksCopy];
     setTasks((prev) => tasksCopy);
+    setModalOpen(false);
+    await deleteCategory(category);
   }
   function handleSelectCategory(key: string) {
     setIsFilterPage((p) => -1);
@@ -187,19 +201,20 @@ export const TasksManager = () => {
     tasksBackup.current = tasksCopy;
     setLoading(false);
   }
-  async function isAuthenticated() {
-    const user = await currentUser();
-    if (!user) navigate("/auth/login");
-    else setUser(user);
-  }
   async function handleSaveTasks() {
     let fullfilled = await saveTasksToServer(tasksBackup.current, editedTasks);
     if (fullfilled) setEditedTasks([]);
   }
+  async function isAuthenticated() {
+    if (!user) navigate("/auth/login");
+  }
   useEffect(() => {
-    setUserTasks();
+    if (user) {
+      setUserTasks();
+    }
   }, [user]);
   useEffect(() => {
+    setUser(user);
     isAuthenticated();
   }, [auth.currentUser]);
   const contextValue = {
@@ -213,12 +228,33 @@ export const TasksManager = () => {
   return (
     <>
       {loading && <LoadingSpinner />}
+
+      <Popup open={modalOpen} onClose={() => setModalOpen(false)}>
+        <div className="confirm">
+          <h2>confirm delete {category} category</h2>
+          <div className="actions">
+            <button
+              className="link button btn-secondary"
+              onClick={() => setModalOpen(false)}
+            >
+              Cancel
+            </button>
+            <button className="link button" onClick={handleDeleteCategory}>
+              Confirm
+            </button>
+          </div>
+        </div>
+      </Popup>
       <main className="tasks-page">
         <ScrollToTop />
         <Context.Provider value={contextValue}>
           <SideNav
             categories={categories}
             filterItems={filterItems}
+            onDeleteCategory={(categorie) => {
+              setModalOpen(true);
+              setCategory(categorie);
+            }}
             onFilter={handleFilter}
           />
         </Context.Provider>

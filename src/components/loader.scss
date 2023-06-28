@@ -1,0 +1,23 @@
+@import "../sass/_vars", "../sass/_mixins";
+
+.app-loader-container {
+  background: rgb(1, 4, 47);
+  @include flex;
+  height: 100vh;
+  color: $green;
+  font-family: $font-sec;
+  font-size: 4rem;
+  letter-spacing: 0.3rem;
+  & span {
+    animation: fade 1s linear alternate infinite;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0.5;
+  }
+  to {
+    opacity: 1;
+  }
+}

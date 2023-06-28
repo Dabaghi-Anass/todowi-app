@@ -8,8 +8,21 @@ import { AuthPage } from "./pages/auth-page";
 import { Profile } from "./pages/profile-page";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useEffect, useState } from "react";
+import AppLoader from "./components/apploader";
 
 function App() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
+
+  if (loading) {
+    return <AppLoader />;
+  }
   return (
     <>
       <main>
@@ -17,10 +30,7 @@ function App() {
         <Routes>
           <Route index path="/" element={<HomePage />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/auth" element={<AuthPage />}>
-            <Route path="login"></Route>
-            <Route path="register"></Route>
-          </Route>
+          <Route path="/auth/*" element={<AuthPage />} />
           <Route path="/manager" element={<TasksManager />} />
           <Route path="/not-found" element={<NotFound />} />
           <Route path="*" element={<Navigate replace to="/not-found" />} />

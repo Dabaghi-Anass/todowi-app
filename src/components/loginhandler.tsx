@@ -258,6 +258,7 @@ function LoginHandler() {
                 )}
                 <button
                   className="link forgot-pass"
+                  type="button"
                   onClick={(e) => {
                     e.preventDefault();
                     setModalOpen(true);

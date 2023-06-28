@@ -1,4 +1,3 @@
-import { useState } from "react";
 import AppIcon from "./app-icon";
 
 interface Props {

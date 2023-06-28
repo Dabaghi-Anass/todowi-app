@@ -10,7 +10,8 @@ export interface Task {
   isHidden: boolean;
   [key: string]: any;
 }
-export interface Item {
-  uid: string;
-  add: boolean;
+export interface Settings {
+  grid: boolean;
+  categoryOpen: boolean;
+  filterOpen: boolean;
 }

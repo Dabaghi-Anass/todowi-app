@@ -101,7 +101,7 @@
           @include flex;
           gap: 0.5em;
           font-size: 1.3em;
-          & > div:nth-child(2) {
+          & > div:is(:nth-child(2), :nth-child(3)) {
             &:hover {
               color: $red;
             }
@@ -404,5 +404,18 @@ button,
   border-color: #555 !important;
   &:hover {
     background: #cacaca !important;
+  }
+}
+
+.confirm {
+  @include flex;
+  padding: 1rem;
+  background: white;
+  flex-direction: column;
+  gap: 1rem;
+  & .actions {
+    @include flex(center, flex-end);
+    gap: 1rem;
+    width: 100%;
   }
 }

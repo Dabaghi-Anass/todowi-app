@@ -1,6 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" defer></script>
+    <script>
+      window.OneSignal = window.OneSignal || [];
+      OneSignal.push(function () {
+        OneSignal.init({
+          appId: "18d55519-8626-40bc-9e46-b6e455303cd3",
+          safari_web_id:
+            "web.onesignal.auto.0b751c21-4ab5-448f-a888-cd2e20e2cfd5",
+          notifyButton: {
+            enable: false,
+          },
+        });
+      });
+    </script>
     <meta property="og:title" content="manage your todos the best way" />
     <meta property="og:site_name" content="TODOWI" />
     <meta property="og:url" content="https://todowi.vercel.app" />
@@ -16,8 +30,11 @@
     <meta charset="UTF-8" />
     <link rel="icon" id="appIcon" type="image/svg+xml" href="/icon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1245708667104363"
-     crossorigin="anonymous"></script>
+    <script
+      async
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1245708667104363"
+      crossorigin="anonymous"
+    ></script>
     <title>TODOWI</title>
   </head>
   <body>

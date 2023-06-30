@@ -1,7 +1,9 @@
 import { getAnalytics } from "firebase/analytics";
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, GithubAuthProvider } from "firebase/auth";
+import { getMessaging, getToken, Observer } from "firebase/messaging";
 import { getFirestore } from "firebase/firestore";
+
 const firebaseConfig = {
   apiKey: "AIzaSyBvAbjPBHaAqaoDQou0qj8wAt1J2h93rbQ",
   authDomain: "todowi-1cde9.firebaseapp.com",
@@ -18,3 +20,17 @@ export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 export const githubProvider = new GithubAuthProvider();
 const analytics = getAnalytics(app);
+const messaging = getMessaging(app);
+
+export async function requestNotificationPermission() {
+  await Notification.requestPermission().then(async (permission) => {
+    if (permission === "granted") {
+      await getToken(messaging, {
+        vapidKey:
+          "BNzHSd47Hh2vxalI8bZrvDilQcsO5Ndq_ur4wQp74tLZTaRs2Y3nIvk0FtNLmodj5LmIjbA4wSx0oj9VHaA8_P8",
+      }).then((token: string) => {
+        // console.log(token);
+      });
+    }
+  });
+}

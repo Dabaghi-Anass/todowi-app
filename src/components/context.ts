@@ -18,7 +18,7 @@ export async function fetchTasks() {
       tsk.tid = doc.id;
       docs.push(tsk as Task);
     });
-    return docs.filter((t) => t.id === user.uid);
+    return docs;
   } catch (error) {
     toast("Error fetching tasks:", { type: "error", draggable: true });
     return [];

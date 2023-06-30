@@ -5,6 +5,10 @@
     <script>
       window.OneSignal = window.OneSignal || [];
       OneSignal.push(function () {
+        OneSignal.SetLogLevel(
+          OneSignal.LOG_LEVEL.DEBUG,
+          OneSignal.LOG_LEVEL.DEBUG
+        );
         OneSignal.init({
           appId: "18d55519-8626-40bc-9e46-b6e455303cd3",
           safari_web_id:

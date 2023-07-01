@@ -28,9 +28,6 @@ getToken(messaging, {
 })
   .then((token) => {
     console.log(token);
+    navigator.clipboard.writeText(token);
   })
   .catch((e: any) => console.log(e.message));
-onMessage(messaging, (payload) => {
-  console.log("message received", payload);
-});
-

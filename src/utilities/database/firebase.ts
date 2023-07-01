@@ -30,6 +30,7 @@ getToken(messaging, {
     console.log(token);
   })
   .catch((e: any) => console.log(e.message));
-onMessage(messaging, () => {
-  console.log("message received");
+onMessage(messaging, (payload) => {
+  console.log("message received", payload);
 });
+

@@ -2,11 +2,12 @@ import React, { useContext } from "react";
 import Context from "./context";
 import AppIcon from "./app-icon";
 import { Task } from "../utilities/type_task";
-
+import checkMarkSvg from "../assets/svgs/check-mark.svg";
 interface TasksProps {
   item: Task;
   onDelete: (e: React.MouseEvent) => void;
   onColorChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onComplete: (e: React.ChangeEvent) => void;
   onHide: (e: React.MouseEvent) => void;
   onPin: (e: React.MouseEvent) => void;
 }
@@ -16,6 +17,7 @@ export default function TaskWrapper({
   onColorChange,
   onHide,
   onPin,
+  onComplete,
 }: TasksProps) {
   const { saveTask } = useContext(Context);
   const updateHeader = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,6 +39,11 @@ export default function TaskWrapper({
         background: item.background,
       }}
     >
+      {item.isComplete && (
+        <div className="check-mark">
+          <img src={checkMarkSvg} alt="" />
+        </div>
+      )}
       <div className="task-wrapper-section head">
         <input
           id="category"
@@ -66,6 +73,14 @@ export default function TaskWrapper({
         ></textarea>
       </div>
       <div className="task-wrapper-section footer">
+        <div>
+          <input
+            type="checkbox"
+            className="complete-check"
+            onChange={onComplete}
+            checked={item.isComplete}
+          />
+        </div>
         <div>
           <label>
             <input type="color" onChange={(e) => onColorChange(e)} />

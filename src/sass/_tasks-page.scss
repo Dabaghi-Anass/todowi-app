@@ -30,9 +30,7 @@
     flex-direction: column;
     padding: 1em;
     gap: 2em;
-
-    z-index: 1;
-
+    z-index: 100;
     .head-section {
       & > div > svg {
         transition: all 250ms;
@@ -244,9 +242,24 @@ button,
 }
 
 .task-wrapper {
+  position: relative;
   --clr: $text-clr;
   color: var(--clr);
-
+  & .check-mark {
+    animation: disappear 1s ease forwards;
+    animation-delay: 1s;
+    background: $green;
+    backdrop-filter: brightness(0.5);
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    @include flex;
+    & img {
+      width: 80%;
+      animation: appear 1s ease forwards;
+    }
+  }
   & label {
     position: relative;
 
@@ -294,7 +307,26 @@ button,
     flex-grow: 1;
     display: flex;
     align-items: flex-end;
-
+    & .complete-check {
+      appearance: none;
+      width: 1.5rem;
+      aspect-ratio: 1;
+      outline: none;
+      border: 2px solid;
+      background: rgb(195, 195, 195);
+      @include flex;
+      &::before {
+        font-size: 1rem;
+        content: "\02718";
+        color: white;
+      }
+      &:checked {
+        background: $green;
+        &::before {
+          content: "\2714";
+        }
+      }
+    }
     & div {
       @include flex(center, stretch);
       gap: 1rem;
@@ -417,5 +449,30 @@ button,
     @include flex(center, flex-end);
     gap: 1rem;
     width: 100%;
+  }
+}
+
+@keyframes appear {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes disappear {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    width: 1.5rem;
+    height: 1.5rem;
+    transform: translate(1rem, -2.25rem);
+    top: 100%;
+    left: 0;
+    opacity: 0;
   }
 }

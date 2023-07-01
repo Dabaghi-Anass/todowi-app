@@ -21,6 +21,7 @@ import { toast } from "react-toastify";
 export const TasksManager = () => {
   const navigate = useNavigate();
   const [grid, setGrid] = useState<boolean>(true);
+  const [completedCat, setCompletedCat] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [categories, setCategories] = useState<string[]>([]);
   const [user, setUser] = useState<User | null>(auth?.currentUser);
@@ -60,6 +61,7 @@ export const TasksManager = () => {
       }
     });
     setTasks((prev) => tasksCopy);
+    console.log(task);
   }
 
   function handleSearch(e: React.FormEvent): void {
@@ -92,6 +94,7 @@ export const TasksManager = () => {
       creationDate: Date.now(),
       isPinned: false,
       isHidden: false,
+      isComplete: false,
     };
     let doc = await addDoc(tasksReference, newTask);
     newTask.tid = doc.id;
@@ -104,6 +107,7 @@ export const TasksManager = () => {
   }
 
   function handleFilter(key: string) {
+    setCompletedCat(false);
     let tasksCopy = [...tasksBackup.current];
     setIsFilterPage((p) => 1);
     switch (key) {
@@ -130,6 +134,10 @@ export const TasksManager = () => {
         break;
       case "creation date":
         tasksCopy = tasksCopy.sort((a, b) => a.creationDate - b.creationDate);
+        break;
+      case "completed":
+        tasksCopy = tasksCopy.filter((t) => t.isComplete);
+        setCompletedCat(true);
         break;
     }
     setTasks((prev) => tasksCopy);
@@ -190,6 +198,7 @@ export const TasksManager = () => {
       "size",
       "hidden",
       "pinned",
+      "completed",
     ];
     setCategories((prev) => categoriesStrings);
     setFilterItems((prev) => filterItemsStrings);
@@ -306,6 +315,10 @@ export const TasksManager = () => {
                   : isFilterPage === 1
                   ? tasks
                       .filter((e) => !e.isHidden)
+                      .filter((e) => {
+                        if (completedCat) return e.isComplete;
+                        else return e;
+                      })
                       .sort((a, b) => {
                         if (a.isPinned && !b.isPinned) return -1;
                         else if (!a.isPinned && b.isPinned) return 1;

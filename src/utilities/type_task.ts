@@ -8,6 +8,7 @@ export interface Task {
   creationDate: number;
   isPinned: boolean;
   isHidden: boolean;
+  isComplete: boolean;
   [key: string]: any;
 }
 export interface Settings {

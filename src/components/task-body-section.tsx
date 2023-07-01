@@ -23,6 +23,12 @@ export default function TaskBodySection({ data: tasks, grid }: DataProps) {
     element.isPinned = !element.isPinned;
     saveTask(element);
   };
+  const handleCompleteTask = (id: string, e: React.ChangeEvent) => {
+    let element = tasks.find((e) => e.tid === id);
+    if (!element) return;
+    element.isComplete = !element.isComplete;
+    saveTask(element);
+  };
   const handleDeleteTask = async (id: string) => {
     deleteTask(id);
     await deleteTaskFromDB(id);
@@ -62,6 +68,7 @@ export default function TaskBodySection({ data: tasks, grid }: DataProps) {
       {tasks.map((element) => (
         <TaskElement
           onHide={(e) => handleHideTask(element.tid, e)}
+          onComplete={(e) => handleCompleteTask(element.tid, e)}
           onPin={(e) => handlePinTask(element.tid, e)}
           onColorChange={(e) => handleColorChange(element.tid, e)}
           onDelete={() => handleDeleteTask(element.tid)}

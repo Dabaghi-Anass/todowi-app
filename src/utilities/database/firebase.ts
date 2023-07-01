@@ -1,7 +1,7 @@
 import { getAnalytics } from "firebase/analytics";
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, GithubAuthProvider } from "firebase/auth";
-import { getMessaging, getToken } from "firebase/messaging";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -22,6 +22,14 @@ export const githubProvider = new GithubAuthProvider();
 const analytics = getAnalytics(app);
 const messaging = getMessaging(app);
 
-getToken(messaging)
-  .then((token) => console.log(token))
-  .catch((e) => console.log(e));
+getToken(messaging, {
+  vapidKey:
+    "BNzHSd47Hh2vxalI8bZrvDilQcsO5Ndq_ur4wQp74tLZTaRs2Y3nIvk0FtNLmodj5LmIjbA4wSx0oj9VHaA8_P8",
+})
+  .then((token) => {
+    console.log(token);
+  })
+  .catch((e: any) => console.log(e.message));
+onMessage(messaging, () => {
+  console.log("message received");
+});

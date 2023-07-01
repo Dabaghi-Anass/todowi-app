@@ -11,8 +11,6 @@ import { auth, db } from "./database/firebase";
 import { User, updateProfile } from "firebase/auth";
 import { toast } from "react-toastify";
 import { Task } from "./type_task";
-import axios from "axios";
-
 async function getCurrentUser(): Promise<User> {
   return new Promise((resolve) => {
     let id = setInterval(() => {
@@ -101,10 +99,4 @@ export async function saveTasksToServer(tasks: Task[], editedItems: string[]) {
     });
     return false;
   }
-}
-interface NotificationProps {
-  token: string;
-  title: string;
-  body: string;
-  image: string;
 }

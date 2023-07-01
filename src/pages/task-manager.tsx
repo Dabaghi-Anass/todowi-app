@@ -9,11 +9,7 @@ import UserProfile from "../components/user-profile";
 import { deleteCategory, saveTasksToServer } from "../utilities/http";
 import { useNavigate } from "react-router-dom";
 import { User } from "firebase/auth";
-import {
-  auth,
-  db,
-  sendNotificationWithToken,
-} from "../utilities/database/firebase";
+import { auth, db } from "../utilities/database/firebase";
 import LoadingSpinner from "../components/loader";
 import { Alert, TextField } from "@mui/material";
 import { Settings, Task } from "../utilities/type_task";

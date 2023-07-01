@@ -9,7 +9,11 @@ import UserProfile from "../components/user-profile";
 import { deleteCategory, saveTasksToServer } from "../utilities/http";
 import { useNavigate } from "react-router-dom";
 import { User } from "firebase/auth";
-import { auth, db } from "../utilities/database/firebase";
+import {
+  auth,
+  db,
+  sendNotificationWithToken,
+} from "../utilities/database/firebase";
 import LoadingSpinner from "../components/loader";
 import { Alert, TextField } from "@mui/material";
 import { Settings, Task } from "../utilities/type_task";
@@ -105,7 +109,16 @@ export const TasksManager = () => {
     tasksBackup.current = [...tasksBackup.current, newTask];
     document.documentElement.scrollTop = document.documentElement.scrollHeight;
   }
-
+  function sendNotificationIfUncompleteTasks() {
+    let uncompletedTask = tasks.some((e) => !e.isComplete);
+    if (!uncompletedTask) return;
+    sendNotificationWithToken({
+      title: "undone tasks ",
+      body: `hello ${user?.displayName}😁 you have undone tasks `,
+      image:
+        "https://firebasestorage.googleapis.com/v0/b/todowi-1cde9.appspot.com/o/app-logo.jpg?alt=media&token=b98e2350-48ac-4656-9565-900325e09815",
+    });
+  }
   function handleFilter(key: string) {
     setCompletedCat(false);
     let tasksCopy = [...tasksBackup.current];
@@ -222,6 +235,9 @@ export const TasksManager = () => {
       setUserTasks();
     }
   }, [user]);
+  useEffect(() => {
+    sendNotificationIfUncompleteTasks();
+  }, []);
   useEffect(() => {
     setUser(user);
     isAuthenticated();

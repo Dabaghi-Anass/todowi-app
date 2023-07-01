@@ -29,6 +29,7 @@ function deleteTask(id: string) {}
 function handleSelectCategory(key: string) {}
 function handleEditCategory(key: string, newCategory: string) {}
 function handleDeleteCategory(key: string) {}
+
 export default createContext({
   saveTask,
   deleteTask,

@@ -10,13 +10,13 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from "react";
 import AppLoader from "./components/apploader";
+
 // import { requestNotificationPermission } from "./utilities/database/firebase";
 
 function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // requestNotificationPermission();
     setTimeout(() => {
       setLoading(false);
     }, 1000);

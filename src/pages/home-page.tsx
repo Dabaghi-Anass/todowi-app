@@ -2,14 +2,12 @@ import headerImage from "../assets/svgs/header.svg";
 import listImage from "../assets/svgs/tasklist.svg";
 import { AppLink } from "../components/app-link";
 import { AppNavBar } from "../components/app-navigation";
-import { sendNotificationWithToken } from "../utilities/database/firebase";
 export const HomePage = () => {
   return (
     <>
       <div className="palasteine">
-        We stand with our friends and colleagues in Palestine{" "}
+        We stand with our friends and colleagues in Palestine may god help them
         <img src="https://flagicons.lipis.dev/flags/4x3/ps.svg" alt="" />
-        may god help them
       </div>
       <header className="fullHeight">
         <AppNavBar />

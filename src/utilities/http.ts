@@ -108,7 +108,3 @@ interface NotificationProps {
   body: string;
   image: string;
 }
-const serverUrl = "https://todowi-server.onrender.com";
-export async function sendNotification(details: NotificationProps) {
-  await axios.post(`${serverUrl}/notify`, details);
-}

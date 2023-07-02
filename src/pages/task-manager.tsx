@@ -61,7 +61,6 @@ export const TasksManager = () => {
       }
     });
     setTasks((prev) => tasksCopy);
-    console.log(task);
   }
 
   function handleSearch(e: React.FormEvent): void {

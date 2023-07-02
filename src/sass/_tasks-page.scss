@@ -236,6 +236,9 @@ button,
 
       .task-wrapper {
         height: 320px;
+        &:only-child {
+          max-width: 33%;
+        }
       }
     }
   }

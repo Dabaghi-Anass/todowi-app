@@ -119,8 +119,11 @@ function LoginHandler() {
   }
   async function resetPassword(email: string) {
     try {
-      await sendPasswordResetEmail(auth, email);
-      toast("Password reset email sent!", { type: "success", draggable: true });
+      toast.promise(sendPasswordResetEmail(auth, email), {
+        pending: "Sending Email...",
+        success: "Email Sent 👌",
+        error: "Error sending the email rejected 🤯",
+      });
       setEmail("");
       setModalOpen(false);
     } catch (error) {

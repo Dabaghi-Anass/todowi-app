@@ -130,6 +130,7 @@ export function Profile() {
     value: string
   ) {
     try {
+      setSensitiveFormError("");
       if (name === "repeatNewPassword") {
         setSensitiveDataErrors((p) => ({
           ...p,
@@ -227,12 +228,16 @@ export function Profile() {
       }
       await reauthenticateWithCredential(auth.currentUser, credentials)
         .then(async () => {
-          await updateProfile(auth?.currentUser || user, { displayName });
+          // await updateProfile(auth?.currentUser || user, { displayName });
           await updateEmail(auth?.currentUser || user, newEmail);
-          toast("email and name updated successfuly", {
-            type: "success",
-            draggable: true,
-          });
+          toast.promise(
+            updateProfile(auth?.currentUser || user, { displayName }),
+            {
+              pending: "updating profile...",
+              success: "profile updated successfuly 👌",
+              error: "Error updating profile 🤯",
+            }
+          );
           setPassword("");
         })
         .catch((e: any) => {
@@ -308,11 +313,14 @@ export function Profile() {
       await reauthenticateWithCredential(auth.currentUser, credentials).then(
         async () => {
           if (!auth.currentUser) return;
-          await updatePassword(auth.currentUser, sensitiveData.newPassword);
-          toast("password changed successfuly", {
-            type: "success",
-            draggable: true,
-          });
+          toast.promise(
+            updatePassword(auth.currentUser, sensitiveData.newPassword),
+            {
+              pending: "Updating password...",
+              error: "Error updating password",
+              success: "Password updated successfully 👌",
+            }
+          );
           setLoading(false);
         }
       );
@@ -325,10 +333,10 @@ export function Profile() {
 
   async function verifieUserEmail() {
     if (!user) return;
-    await sendEmailVerification(user);
-    toast("a verification email link sent to your email", {
-      type: "success",
-      draggable: true,
+    toast.promise(sendEmailVerification(user), {
+      pending: "sending email..",
+      success: "A verification email link sent to your email 👌",
+      error: "Error sending email 🤯",
     });
   }
   async function handleImageUpload(e: React.ChangeEvent<HTMLInputElement>) {
@@ -339,51 +347,50 @@ export function Profile() {
         const storage = getStorage();
         const oldImageUrl = user?.photoURL;
         const stRef = storageRef(storage, "images/" + file.name);
-        await uploadBytes(stRef, file)
-          .then(async () => {
-            await getDownloadURL(stRef).then(async (downloadURL) => {
-              if (!auth?.currentUser) return;
-              if (!user) return;
-              let userCopy = { ...user };
-              userCopy.photoURL = downloadURL;
-              setUser(userCopy);
-              await updateProfile(auth.currentUser || user, {
-                photoURL: downloadURL,
-              })
-                .then(() => {
-                  toast("image updated succefully", {
-                    type: "success",
-                    draggable: true,
-                  });
-                  setLoading(false);
+        toast.promise(
+          uploadBytes(stRef, file)
+            .then(async () => {
+              await getDownloadURL(stRef).then(async (downloadURL) => {
+                if (!auth?.currentUser) return;
+                if (!user) return;
+                let userCopy = { ...user };
+                userCopy.photoURL = downloadURL;
+                setUser(userCopy);
+                await updateProfile(auth.currentUser || user, {
+                  photoURL: downloadURL,
                 })
-                .then(async () => {
-                  if (oldImageUrl) {
-                    try {
-                      let strgRef = storageRef(storage, oldImageUrl);
-                      await deleteObject(strgRef);
-                    } catch (error) {
-                      toast("Error deleting old image:", {
-                        type: "error",
-                        draggable: true,
-                      });
+                  .then(() => {
+                    setLoading(false);
+                  })
+                  .then(async () => {
+                    if (oldImageUrl) {
+                      try {
+                        let strgRef = storageRef(storage, oldImageUrl);
+                        await deleteObject(strgRef);
+                      } catch (error) {}
                     }
-                  }
-                })
-                .catch((e) => {
-                  toast("Error uploading image:", {
-                    type: "error",
-                    draggable: true,
+                  })
+                  .catch((e) => {
+                    toast("Error uploading image:", {
+                      type: "error",
+                      draggable: true,
+                    });
+                    setLoading(false);
                   });
-                  setLoading(false);
-                });
-            });
-          })
-          .catch((error) => {
-            toast("Error uploading image:", {
-              type: "error",draggable: true
-            });
-          });
+              });
+            })
+            .catch((error) => {
+              toast("Error uploading image:", {
+                type: "error",
+                draggable: true,
+              });
+            }),
+          {
+            pending: "uploading image...",
+            error: "error uploading image",
+            success: "image uploaded successfully 👌",
+          }
+        );
       }
     } catch (e: any) {}
     setLoading(false);

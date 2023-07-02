@@ -50,10 +50,10 @@ export async function getTask(id: string) {}
 export async function deleteTaskFromDB(id: string) {
   try {
     const taskRef = doc(db, "tasks", id);
-    await deleteDoc(taskRef);
-    toast("task deleted succefully", {
-      type: "info",
-      draggable: true,
+    toast.promise(deleteDoc(taskRef), {
+      pending: "Deleting task...",
+      success: "task deleted succefully 👌",
+      error: "Error deleting task 🤯",
     });
   } catch (error) {
     toast("Error deleting task:", { type: "error", draggable: true });
@@ -68,10 +68,6 @@ export async function deleteCategory(category: string) {
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach(async (doc) => {
       await deleteDoc(doc.ref);
-    });
-    toast(`${category} category deleted successfully`, {
-      type: "success",
-      draggable: true,
     });
   } catch (error) {
     toast(`Error deleting ${category} category try again later`, {
@@ -90,7 +86,6 @@ export async function saveTasksToServer(tasks: Task[], editedItems: string[]) {
         await updateDoc(taskRef, task);
       }
     }
-    toast("Tasks saved successfully.", { type: "success", draggable: true });
     return true;
   } catch (error) {
     toast("Error saving tasks try again later", {

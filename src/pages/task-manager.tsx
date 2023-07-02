@@ -95,11 +95,12 @@ export const TasksManager = () => {
       isHidden: false,
       isComplete: false,
     };
+    setTasks((prev) => [...tasks, newTask]);
     let doc = await addDoc(tasksReference, newTask);
     newTask.tid = doc.id;
     await updateDoc(doc, newTask);
-    saveTask(newTask);
     setTasks((prev) => [...tasks, newTask]);
+    saveTask(newTask);
     setEditedTasks((p) => [...p, newTask.tid]);
     tasksBackup.current = [...tasksBackup.current, newTask];
     document.documentElement.scrollTop = document.documentElement.scrollHeight;
@@ -173,7 +174,11 @@ export const TasksManager = () => {
     tasksBackup.current = [...tasksCopy];
     setTasks((prev) => tasksCopy);
     setModalOpen(false);
-    await deleteCategory(category);
+    toast.promise(deleteCategory(category), {
+      error: "Error deleting category",
+      pending: "Deleting Category...",
+      success: "category deleted successfully 👌",
+    });
   }
   function handleSelectCategory(key: string) {
     setIsFilterPage((p) => -1);
@@ -210,7 +215,14 @@ export const TasksManager = () => {
     setLoading(false);
   }
   async function handleSaveTasks() {
-    let fullfilled = await saveTasksToServer(tasksBackup.current, editedTasks);
+    let fullfilled = await toast.promise(
+      saveTasksToServer(tasksBackup.current, editedTasks),
+      {
+        error: "Error saving tasks try again later",
+        pending: "Saving tasks...",
+        success: "tasks saved successfully 👌",
+      }
+    );
     if (fullfilled) setEditedTasks([]);
   }
   async function isAuthenticated() {

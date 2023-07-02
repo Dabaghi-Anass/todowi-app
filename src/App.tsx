@@ -25,7 +25,17 @@ function App() {
   return (
     <>
       <main>
-        <ToastContainer />
+        <ToastContainer
+          position="bottom-center"
+          autoClose={1000}
+          hideProgressBar={false}
+          newestOnTop
+          closeOnClick
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
         <Routes>
           <Route index path="/" element={<HomePage />} />
           <Route path="/profile" element={<Profile />} />

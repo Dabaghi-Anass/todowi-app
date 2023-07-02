@@ -119,7 +119,6 @@
     }
   }
 }
-
 button,
 .button {
   cursor: pointer;
@@ -236,9 +235,6 @@ button,
 
       .task-wrapper {
         height: 320px;
-        &:only-child {
-          max-width: 33%;
-        }
       }
     }
   }
@@ -477,5 +473,14 @@ button,
     top: 100%;
     left: 0;
     opacity: 0;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .task-wrapper {
+    height: 320px;
+    &:only-child {
+      max-width: 33%;
+    }
   }
 }

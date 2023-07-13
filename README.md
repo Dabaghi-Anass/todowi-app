@@ -3,7 +3,7 @@ this app is created using **reactjs** and **firebase** responsible for task mana
 
 visit [todowi](https://todowi.vercel.app/)
 ## screenshots
-  ![home page](/home-img.jpg)
+  ![home page](./home-img.jpg)
 
   ![app](/manager-img.png)
 

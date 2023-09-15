@@ -12,6 +12,7 @@
 
   .side-nav {
     position: fixed;
+
     top: 0;
     transition: min-width 300ms, max-width 300ms;
 
@@ -28,7 +29,8 @@
     box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.15);
     @include flex(start, start);
     flex-direction: column;
-    padding: 1em 1em 1em 4em;
+    overflow : scroll;
+    padding: 1em;
     gap: 2em;
     z-index: 100;
     .head-section {

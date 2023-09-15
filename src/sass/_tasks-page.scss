@@ -54,6 +54,7 @@
   .drop-down {
     @include flex(start, start);
     width: 100%;
+    max-height :40%; 
     flex-direction: column;
     gap: 0.5em;
     overflow: hidden;

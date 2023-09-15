@@ -14,7 +14,6 @@
     position: fixed;
     top: 0;
     transition: min-width 300ms, max-width 300ms;
-
     &.nav-closed {
       min-width: 3rem;
       max-width: 3rem;
@@ -29,6 +28,7 @@
     @include flex(start, start);
     flex-direction: column;
     padding: 1em;
+    padding-bottom : 3rem;
     gap: 2em;
     z-index: 100;
     .head-section {

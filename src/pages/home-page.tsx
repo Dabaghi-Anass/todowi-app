@@ -5,10 +5,9 @@ import { AppNavBar } from "../components/app-navigation";
 export const HomePage = () => {
   return (
     <>
-      <div className="palasteine">
-        We stand with our friends and colleagues in Palestine may god help them
-        <img src="https://flagicons.lipis.dev/flags/4x3/ps.svg" alt="" />
-      </div>
+      <div class="palasteine">
+        We stand with our friends and colleagues in Palestine <img src="https://flagicons.lipis.dev/flags/4x3/ps.svg" alt=""> and Sudan <img src="https://flagicons.lipis.dev/flags/4x3/sd.svg" alt=""> may god help them
+        </div>
       <header className="fullHeight">
         <AppNavBar />
         <img src={headerImage} alt="" className="header-image" />

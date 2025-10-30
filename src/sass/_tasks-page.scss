@@ -1,7 +1,7 @@
-@import "./_mixins";
+@import './_mixins';
 
 .tasks-page {
-  background: getImage("tasks-page-background");
+  background: getImage('tasks-page-background');
   min-height: 100vh;
   width: 100%;
   display: flex;
@@ -29,7 +29,7 @@
     box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.15);
     @include flex(start, start);
     flex-direction: column;
-    overflow : scroll;
+    overflow: scroll;
     padding: 1em;
     gap: 1em;
     z-index: 100;
@@ -73,7 +73,7 @@
 
     &-body {
       @include flex(stretch, start);
-      max-height :40vh; 
+      max-height: 40vh;
       overflow: scroll;
       flex-direction: column;
       width: 100%;
@@ -248,6 +248,8 @@ button,
   position: relative;
   --clr: $text-clr;
   color: var(--clr);
+  border-radius: 1rem;
+  border: 1px solid rgb(19, 19, 19);
   & .check-mark {
     animation: disappear 1s ease forwards;
     animation-delay: 1s;
@@ -320,13 +322,13 @@ button,
       @include flex;
       &::before {
         font-size: 1rem;
-        content: "\02718";
+        content: '\02718';
         color: white;
       }
       &:checked {
         background: $green;
         &::before {
-          content: "\2714";
+          content: '\2714';
         }
       }
     }

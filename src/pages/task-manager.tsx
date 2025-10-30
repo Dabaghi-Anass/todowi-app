@@ -1,22 +1,22 @@
-import SearchAndFilterSection from "../components/search-and-filter-section";
-import TaskBodySection from "../components/task-body-section";
-import SideNav from "../components/side-nav";
-import React, { useEffect, useRef, useState } from "react";
-import ScrollToTop from "../components/scrollToTop";
-import Context, { fetchTasks } from "../components/context";
-import { Logo } from "../components/app-logo";
-import UserProfile from "../components/user-profile";
-import { deleteCategory, saveTasksToServer } from "../utilities/http";
-import { useNavigate } from "react-router-dom";
-import { User } from "firebase/auth";
-import { auth, db } from "../utilities/database/firebase";
-import LoadingSpinner from "../components/loader";
-import { Alert, TextField } from "@mui/material";
-import { Settings, Task } from "../utilities/type_task";
-import { nanoid } from "nanoid";
-import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
-import Popup from "../components/app-popup";
-import { toast } from "react-toastify";
+import SearchAndFilterSection from '../components/search-and-filter-section';
+import TaskBodySection from '../components/task-body-section';
+import SideNav from '../components/side-nav';
+import React, { useEffect, useRef, useState } from 'react';
+import ScrollToTop from '../components/scrollToTop';
+import Context, { fetchTasks } from '../components/context';
+import { Logo } from '../components/app-logo';
+import UserProfile from '../components/user-profile';
+import { deleteCategory, saveTasksToServer } from '../utilities/http';
+import { useNavigate } from 'react-router-dom';
+import { User } from 'firebase/auth';
+import { auth, db } from '../utilities/database/firebase';
+import LoadingSpinner from '../components/loader';
+import { Alert, TextField } from '@mui/material';
+import { Settings, Task } from '../utilities/type_task';
+import { nanoid } from 'nanoid';
+import { addDoc, collection, doc, updateDoc } from 'firebase/firestore';
+import Popup from '../components/app-popup';
+import { toast } from 'react-toastify';
 
 export const TasksManager = () => {
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ export const TasksManager = () => {
   const tasksBackup = useRef<Task[]>([]);
 
   function switchDisplayMode(displayMode: string) {
-    if (displayMode === "grid") setGrid(true);
+    if (displayMode === 'grid') setGrid(true);
     else setGrid(false);
   }
   function deleteTask(id: string) {
@@ -81,15 +81,15 @@ export const TasksManager = () => {
   async function handleCreateTodo() {
     if (!user) return;
     let id = user.uid;
-    let tasksReference = collection(db, "tasks");
+    let tasksReference = collection(db, 'tasks');
     let uniqueId = nanoid();
     const newTask = {
       id,
       tid: uniqueId,
-      content: "new task",
-      background: "#728cfe",
-      size: "new task".length,
-      category: "Category",
+      content: 'new task',
+      background: '#a8cfff',
+      size: 'new task'.length,
+      category: 'Category',
       creationDate: Date.now(),
       isPinned: false,
       isHidden: false,
@@ -111,31 +111,31 @@ export const TasksManager = () => {
     let tasksCopy = [...tasksBackup.current];
     setIsFilterPage((p) => 1);
     switch (key) {
-      case "category":
+      case 'category':
         tasksCopy = tasksCopy.sort((a, b) =>
           a.category.localeCompare(b.category)
         );
         break;
-      case "alphabetic order":
+      case 'alphabetic order':
         tasksCopy = tasksCopy.sort((a, b) =>
           a.content.localeCompare(b.content)
         );
         break;
 
-      case "size":
+      case 'size':
         tasksCopy = tasksCopy.sort((a, b) => a.size - b.size);
         break;
-      case "hidden":
+      case 'hidden':
         tasksCopy = tasksCopy.filter((e) => e.isHidden);
         setIsFilterPage((p) => 0);
         break;
-      case "pinned":
+      case 'pinned':
         tasksCopy = tasksCopy.filter((e) => e.isPinned);
         break;
-      case "creation date":
+      case 'creation date':
         tasksCopy = tasksCopy.sort((a, b) => a.creationDate - b.creationDate);
         break;
-      case "completed":
+      case 'completed':
         tasksCopy = tasksCopy.filter((t) => t.isComplete);
         setCompletedCat(true);
         break;
@@ -148,19 +148,19 @@ export const TasksManager = () => {
       tasksCopy = tasksCopy.map((e) => {
         if (e.category.trim().toLocaleLowerCase() === key.toLowerCase()) {
           e.category = newCategory;
-          const docRef = doc(db, "tasks", e.tid);
+          const docRef = doc(db, 'tasks', e.tid);
           updateDoc(docRef, { category: newCategory });
         }
         return e;
       });
       tasksBackup.current = [...tasksCopy];
       setTasks((prev) => [...tasksCopy]);
-      toast("category updated successfully", {
-        type: "success",
+      toast('category updated successfully', {
+        type: 'success',
         draggable: true,
       });
     } catch (e) {
-      toast("error updating category.", { type: "error", draggable: true });
+      toast('error updating category.', { type: 'error', draggable: true });
     }
   }
   async function handleDeleteCategory() {
@@ -175,9 +175,9 @@ export const TasksManager = () => {
     setTasks((prev) => tasksCopy);
     setModalOpen(false);
     toast.promise(deleteCategory(category), {
-      error: "Error deleting category",
-      pending: "Deleting Category...",
-      success: "category deleted successfully 👌",
+      error: 'Error deleting category',
+      pending: 'Deleting Category...',
+      success: 'category deleted successfully 👌',
     });
   }
   function handleSelectCategory(key: string) {
@@ -196,13 +196,13 @@ export const TasksManager = () => {
       ),
     ];
     let filterItemsStrings = [
-      "category",
-      "alphabitic ordre",
-      "creation date",
-      "size",
-      "hidden",
-      "pinned",
-      "completed",
+      'category',
+      'alphabitic ordre',
+      'creation date',
+      'size',
+      'hidden',
+      'pinned',
+      'completed',
     ];
     setCategories((prev) => categoriesStrings);
     setFilterItems((prev) => filterItemsStrings);
@@ -218,15 +218,15 @@ export const TasksManager = () => {
     let fullfilled = await toast.promise(
       saveTasksToServer(tasksBackup.current, editedTasks),
       {
-        error: "Error saving tasks try again later",
-        pending: "Saving tasks...",
-        success: "tasks saved successfully 👌",
+        error: 'Error saving tasks try again later',
+        pending: 'Saving tasks...',
+        success: 'tasks saved successfully 👌',
       }
     );
     if (fullfilled) setEditedTasks([]);
   }
   async function isAuthenticated() {
-    if (!user) navigate("/auth/login");
+    if (!user) navigate('/auth/login');
   }
   useEffect(() => {
     if (user) {
@@ -251,22 +251,22 @@ export const TasksManager = () => {
       {loading && <LoadingSpinner />}
 
       <Popup open={modalOpen} onClose={() => setModalOpen(false)}>
-        <div className="confirm">
+        <div className='confirm'>
           <h2>confirm delete {category} category</h2>
-          <div className="actions">
+          <div className='actions'>
             <button
-              className="link button btn-secondary"
+              className='link button btn-secondary'
               onClick={() => setModalOpen(false)}
             >
               Cancel
             </button>
-            <button className="link button" onClick={handleDeleteCategory}>
+            <button className='link button' onClick={handleDeleteCategory}>
               Confirm
             </button>
           </div>
         </div>
       </Popup>
-      <main className="tasks-page">
+      <main className='tasks-page'>
         <ScrollToTop />
         <Context.Provider value={contextValue}>
           <SideNav
@@ -279,12 +279,12 @@ export const TasksManager = () => {
             onFilter={handleFilter}
           />
         </Context.Provider>
-        <section className="todos-container">
-          <section className="task-head-section">
+        <section className='todos-container'>
+          <section className='task-head-section'>
             <span></span>
             <h1>
               <Logo />
-              <span className="sub">tasks</span>
+              <span className='sub'>tasks</span>
             </h1>
             <UserProfile />
           </section>
@@ -295,18 +295,18 @@ export const TasksManager = () => {
           />
           <Context.Provider value={contextValue}>
             {editedTasks.length > 0 ? (
-              <div className="save-actions">
-                <Alert className="alert" severity="warning">
+              <div className='save-actions'>
+                <Alert className='alert' severity='warning'>
                   warning : you must save you tasks
                 </Alert>
-                <div className="actions">
+                <div className='actions'>
                   <button
-                    className="link button btn-secondary"
+                    className='link button btn-secondary'
                     onClick={() => setEditedTasks([])}
                   >
                     cancel
                   </button>
-                  <button className="link button" onClick={handleSaveTasks}>
+                  <button className='link button' onClick={handleSaveTasks}>
                     save
                   </button>
                 </div>

@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
-import Context from "./context";
-import AppIcon from "./app-icon";
-import { Task } from "../utilities/type_task";
-import checkMarkSvg from "../assets/svgs/check-mark.svg";
+import React, { useContext } from 'react';
+import Context from './context';
+import AppIcon from './app-icon';
+import { Task } from '../utilities/type_task';
+import checkMarkSvg from '../assets/svgs/check-mark.svg';
 interface TasksProps {
   item: Task;
   onDelete: (e: React.MouseEvent) => void;
@@ -34,61 +34,60 @@ export default function TaskWrapper({
 
   return (
     <div
-      className="task-wrapper"
+      className='task-wrapper'
       style={{
         background: item.background,
       }}
     >
-      {item.isComplete && (
-        <div className="check-mark">
-          <img src={checkMarkSvg} alt="" />
-        </div>
-      )}
-      <div className="task-wrapper-section head">
+      <div className='task-wrapper-section head'>
         <input
-          id="category"
-          style={{ color: "inherit", textTransform: "capitalize" }}
+          id='category'
+          style={{
+            color: 'inherit',
+            textTransform: 'capitalize',
+            fontWeight: '600',
+          }}
           value={item.category}
           onChange={updateHeader}
         />
         <span>
           <AppIcon
-            name={`PushPin${item.isPinned ? "" : "Outlined"}`}
-            className="icon icon-pin"
+            name={`PushPin${item.isPinned ? '' : 'Outlined'}`}
+            className='icon icon-pin'
             onClick={(e) => onPin(e)}
           />
           <AppIcon
-            name="DeleteOutline"
+            name='DeleteOutline'
             onClick={(e) => onDelete(e)}
-            className="icon icon-delete"
+            className='icon icon-delete'
           />
         </span>
       </div>
-      <div className="task-wrapper-section content">
+      <div className='task-wrapper-section content'>
         <textarea
-          id="content"
-          className="task-content-wrapper"
+          id='content'
+          className='task-content-wrapper'
           value={item.content}
           onChange={(e) => handleEditTaskContent(e)}
         ></textarea>
       </div>
-      <div className="task-wrapper-section footer">
-        <div>
+      <div className='task-wrapper-section footer'>
+        {/* <div>
           <input
             type="checkbox"
             className="complete-check"
             onChange={onComplete}
             checked={item.isComplete}
           />
-        </div>
+        </div> */}
         <div>
           <label>
-            <input type="color" onChange={(e) => onColorChange(e)} />
-            <AppIcon name="FormatColorFill" className="icon icon-colorfill" />
+            <input type='color' onChange={(e) => onColorChange(e)} />
+            <AppIcon name='FormatColorFill' className='icon icon-colorfill' />
           </label>
           <AppIcon
-            name={`Visibility${!item.isHidden ? "" : "Off"}`}
-            className="icon icon-eye"
+            name={`Visibility${!item.isHidden ? '' : 'Off'}`}
+            className='icon icon-eye'
             onClick={(e) => onHide(e)}
           />
         </div>

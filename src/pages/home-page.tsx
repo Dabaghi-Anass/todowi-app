@@ -1,28 +1,31 @@
-import headerImage from "../assets/svgs/header.svg";
-import listImage from "../assets/svgs/tasklist.svg";
-import { AppLink } from "../components/app-link";
-import { AppNavBar } from "../components/app-navigation";
+import headerImage from '../assets/svgs/header.svg';
+import listImage from '../assets/svgs/tasklist.svg';
+import { AppLink } from '../components/app-link';
+import { AppNavBar } from '../components/app-navigation';
 export const HomePage = () => {
   return (
     <>
-      <div class="palasteine">
-        We stand with our friends and colleagues in Palestine <img src="https://flagicons.lipis.dev/flags/4x3/ps.svg" alt=""> and Sudan <img src="https://flagicons.lipis.dev/flags/4x3/sd.svg" alt=""> may god help them
-        </div>
-      <header className="fullHeight">
+      <div className='palasteine'>
+        We stand with our friends and colleagues in Palestine{' '}
+        <img src='https://flagicons.lipis.dev/flags/4x3/ps.svg' alt='' /> and
+        Sudan <img src='https://flagicons.lipis.dev/flags/4x3/sd.svg' alt='' />{' '}
+        may god help them
+      </div>
+      <header className='fullHeight'>
         <AppNavBar />
-        <img src={headerImage} alt="" className="header-image" />
-        <section className="hero">
-          <p className="app-salutation">
+        <img src={headerImage} alt='' className='header-image' />
+        <section className='hero'>
+          <p className='app-salutation'>
             increase your productivity <br />
             with todowi
           </p>
-          <p className="sub">never get lost</p>
-          <div className="cta">
-            <AppLink id="manager" button />
+          <p className='sub'>never get lost</p>
+          <div className='cta'>
+            <AppLink id='manager' button />
           </div>
         </section>
       </header>
-      <section className="description fullHeight">
+      <section className='description fullHeight'>
         <p>
           For better productivité you need
           <br />
@@ -36,7 +39,7 @@ export const HomePage = () => {
           <br />
           and more
         </p>
-        <img src={listImage} alt="image of a list" />
+        <img src={listImage} alt='image of a list' />
       </section>
     </>
   );
